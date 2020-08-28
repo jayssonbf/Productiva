@@ -5,12 +5,25 @@
 <?import javafx.scene.layout.Pane?>
 
 
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
       prefHeight="275.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
     <children>
-        <Label fx:id="lblOutput" layoutX="91.0" layoutY="129.0" prefHeight="17.0" prefWidth="118.0"/>
-        <Button layoutX="117.0" layoutY="89.0" mnemonicParsing="false" onAction="#sayHello"
-                text="Say Hello"/>
+      <TabPane>
+        <Tab fx:id="prodLineTab" text="Product Line">
+          <fx:include source="Tab1.fxml"></fx:include>
+        </Tab>
+
+        <Tab fx:id="produceTab" text="Produce">
+          <fx:include source="Tab2.fxml"></fx:include>
+        </Tab>
+
+        <Tab fx:id="prodLogTab" text="Production Log">
+          <fx:include source="Tab3.fxml"></fx:include>
+        </Tab>
+
+      </TabPane>
     </children>
 </Pane>
