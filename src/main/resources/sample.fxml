@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<TabPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<TabPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Tab1Controller">
    <tabs>
       <Tab fx:id="prodLineTab" text="Product Line">
          <content>
@@ -35,10 +35,10 @@
                         <TextField layoutX="140.0" layoutY="22.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label layoutX="10.0" layoutY="127.0" text="Manufacturer" textAlignment="CENTER" GridPane.rowIndex="1" />
                         <ChoiceBox prefHeight="28.0" prefWidth="110.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <TextField prefHeight="32.0" prefWidth="122.0" GridPane.rowIndex="2" />
+                        <Label layoutX="10.0" layoutY="83.0" text="Item Type" textAlignment="CENTER" GridPane.rowIndex="2" />
                      </children>
                   </GridPane>
-                  <Button layoutX="238.0" layoutY="274.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="107.0" text="Add product">
+                  <Button layoutX="238.0" layoutY="274.0" mnemonicParsing="false" onAction="#buttonAction" prefHeight="32.0" prefWidth="107.0" text="Add product">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
