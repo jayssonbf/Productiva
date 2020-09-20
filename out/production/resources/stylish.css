@@ -1,0 +1,9 @@
+.root{
+  -fx-background-color: #add8e6;
+  -fx-font-size: 14px;
+  -fx-font-family: sans-serif;
+}
+
+.tab{
+  -fx-background-color: #FFFFFF;
+}

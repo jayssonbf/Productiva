@@ -1,3 +1,9 @@
+/*-------------------------------------------------------------------------
+file name: Main.java
+by: Jaysson Balbuena
+organization: COP 3003, fall 2020
+for: A production management system that adds new records to a database
+---------------------------------------------------------------------------*/
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,7 +20,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
 
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root, 400, 300);
         scene.getStylesheets().add("stylish.css");
 
         primaryStage.setTitle("Product Management System");
