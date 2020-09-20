@@ -33,9 +33,6 @@ public class ActController {
   static final String PASS = "";
 
   @FXML
-  private Tab prodLineTab;
-
-  @FXML
   private TextField txtFieldName;
 
   @FXML
@@ -45,13 +42,7 @@ public class ActController {
   private ChoiceBox<String> cbItems;
 
   @FXML
-  private Tab produceTab;
-
-  @FXML
   private ComboBox<String> cmbQuantity;
-
-  @FXML
-  private Tab prodLogTab;
 
   @FXML
   void buttonAction(ActionEvent event) {
@@ -99,37 +90,39 @@ public class ActController {
       String insertSql = " INSERT INTO PRODUCT(NAME, TYPE, MANUFACTURER)"
           + " VALUES ( ?, ?, ? )";
 
-      //Get values entered by the user
-      String prodName = txtFieldName.getText();
-      String prodType = cbItems.getValue();
+        //STEP 3: Execute a PreparedStatement query
+        pStmt = conn.prepareStatement(insertSql);
 
-      //STEP 3: Execute a PreparedStatement query
-      pStmt = conn.prepareStatement(insertSql);
-      pStmt.setString(1, prodName);
-      pStmt.setString(2, prodType);
+        String prodName = txtFieldName.getText();
+        pStmt.setString(1, prodName);
 
-      String prodManufacturer = txtFieldManufacturer.getText();
-      pStmt.setString(3, prodManufacturer);
+        String prodType = cbItems.getValue();
+        pStmt.setString(2, prodType);
 
-      System.out.println("Product has been added to the database!");
-      System.out.println("Products list\n");
+        String prodManufacturer = txtFieldManufacturer.getText();
+        pStmt.setString(3, prodManufacturer);
 
-      //SLQ select statement
-      String sql = "SELECT * FROM PRODUCT";
-      pStmt = conn.prepareStatement(sql);
-      ResultSet result = pStmt.executeQuery();
-      //
-      while (result.next()) {
-        //Display value to the console
-        System.out.print(result.getString(2) + " ");
-        System.out.print(result.getString(3) + " ");
-        System.out.println(result.getString(4));
-      }
+        System.out.println("Product has been added to the database!");
+        System.out.println("Products list\n");
+        int rowAffected = pStmt.executeUpdate();
+
+        //SLQ select statement
+        String sql = "SELECT * FROM PRODUCT";
+        pStmt = conn.prepareStatement(sql);
+        ResultSet result = pStmt.executeQuery();
+
+        if (rowAffected > 0) {
+          while (result.next()) {
+            //Display value to the console
+            System.out.print(result.getString(2) + " ");
+            System.out.print(result.getString(3) + " ");
+            System.out.println(result.getString(4));
+          }
+        }
 
       // STEP 4: Clean-up environment
-      result.close();
-      pStmt.close();
       conn.close();
+      pStmt.close();
     } catch (ClassNotFoundException e) {
       e.printStackTrace();
     } catch (SQLException e) {
@@ -137,4 +130,3 @@ public class ActController {
     }
   }
 }
-
