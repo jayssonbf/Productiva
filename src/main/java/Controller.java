@@ -1,16 +1,15 @@
-import java.io.IOException;
+/*import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.AnchorPane;
 
-public class Controller implements Initializable {
 
+public class Controller implements Initializable {
 
     @FXML
     Tab prodLineTab;
@@ -24,8 +23,9 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         FXMLLoader loader = new FXMLLoader();
+
         try {
-            AnchorPane anch1 = loader.load(getClass().getResource("Tab1.fxml"));
+            AnchorPane anch1 = loader.load(getClass().getResource("sample.fxml"));
             prodLineTab.setContent(anch1);
         } catch (IOException iex) {
             System.out.println("unable to load ProdLineTab");
@@ -33,7 +33,7 @@ public class Controller implements Initializable {
 
         loader = new FXMLLoader();
         try {
-            AnchorPane anch2 = loader.load(getClass().getResource("Tab2.fxml"));
+            AnchorPane anch2 = loader.load(getClass().getResource("sample.fxml"));
             produceTab.setContent(anch2);
         } catch (IOException iex) {
             System.out.println("unable to load produceTab");
@@ -41,7 +41,7 @@ public class Controller implements Initializable {
 
         loader = new FXMLLoader();
         try {
-            AnchorPane anch3 = loader.load(getClass().getResource("Tab3.fxml"));
+            AnchorPane anch3 = loader.load(getClass().getResource("sample.fxml"));
             prodLogTab.setContent(anch3);
         } catch (IOException iex) {
             System.out.println("unable to load tab3");
@@ -49,5 +49,5 @@ public class Controller implements Initializable {
 
     }
 
+}*/
 
-}

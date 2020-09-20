@@ -37,7 +37,8 @@
                           <Label layoutX="10.0" layoutY="26.0" textAlignment="CENTER" GridPane.rowIndex="1" />
                           <TextField layoutX="140.0" layoutY="22.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                           <Label layoutX="10.0" layoutY="127.0" text="Manufacturer" textAlignment="CENTER" GridPane.rowIndex="1" />
-                          <ChoiceBox prefHeight="28.0" prefWidth="110.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                          <ChoiceBox fx:id="cbItems" prefHeight="28.0" prefWidth="110.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
                           <Label layoutX="10.0" layoutY="83.0" text="Item Type" textAlignment="CENTER" GridPane.rowIndex="2" />
                        </children>
                     </GridPane>
@@ -48,7 +49,6 @@
 
                           </Button>
                  </children></AnchorPane>
-             <!-- <fx:include source="Tab1.fxml" />-->
            </content>
         </Tab>
         <Tab fx:id="produceTab" text="Produce">
@@ -58,7 +58,7 @@
                     <Label layoutX="73.0" layoutY="60.0" text="Choose Product " />
                     <ListView layoutX="239.0" layoutY="29.0" prefHeight="97.0" prefWidth="131.0" />
                     <Label layoutX="73.0" layoutY="169.0" text="Choose Quantity" />
-                    <ComboBox layoutX="230.0" layoutY="165.0" prefWidth="150.0" />
+                    <ComboBox fx:id="cmbQuantity" layoutX="230.0" layoutY="165.0" prefWidth="150.0" />
                     <Button layoutX="239.0" layoutY="261.0" mnemonicParsing="false" onAction="#recProd" text="Record Production" />
                  </children>
               </AnchorPane>
