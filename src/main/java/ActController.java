@@ -2,6 +2,8 @@
 file name: ActController.java
 by: Jaysson Balbuena
 organization: COP 3003, fall 2020
+Instructor: Scott Vanselow
+Date:  09/19/2020
 for: A production management system that adds new records to a database
 ---------------------------------------------------------------------------*/
 
@@ -15,7 +17,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 
 /**
@@ -54,8 +55,8 @@ public class ActController {
   }
 
   /**
-   *initialize is called automatically when the controller loads.
-   * and set a default value for the combobox and choicebox
+   *This method is called automatically when the controller loads.
+   * and sets a default value for the combobox and choicebox
    */
   public void initialize() {
 
@@ -72,7 +73,9 @@ public class ActController {
   }
 
   /**
-   * It creates a record and insert it into a database.
+   * This method will use the text entered in the text field of the.
+   * interface for the prepared statement to insert a product in the database
+   * table
    * */
   public void connectToDataBase() {
 
@@ -88,8 +91,9 @@ public class ActController {
 
       //SQL insert statement
       String insertSql = " INSERT INTO PRODUCT(NAME, TYPE, MANUFACTURER)"
-          + " VALUES ( ?, ?, ? )";
-
+                        + " VALUES ( ?, ?, ? )";
+      int rowAffected = 0;
+      try {
         //STEP 3: Execute a PreparedStatement query
         pStmt = conn.prepareStatement(insertSql);
 
@@ -104,9 +108,17 @@ public class ActController {
 
         System.out.println("Product has been added to the database!");
         System.out.println("Products list\n");
-        int rowAffected = pStmt.executeUpdate();
+        rowAffected = pStmt.executeUpdate();
+      } catch (Exception e) {
 
-        //SLQ select statement
+        e.printStackTrace();
+      } finally {
+        if (pStmt != null) {
+          pStmt.close();
+        }
+      }
+
+      try {  //SLQ select statement
         String sql = "SELECT * FROM PRODUCT";
         pStmt = conn.prepareStatement(sql);
         ResultSet result = pStmt.executeQuery();
@@ -119,7 +131,11 @@ public class ActController {
             System.out.println(result.getString(4));
           }
         }
-
+      } catch (Exception e) {
+        e.printStackTrace();
+      } finally {
+        pStmt.close();
+      }
       // STEP 4: Clean-up environment
       conn.close();
       pStmt.close();
