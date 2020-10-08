@@ -60,18 +60,27 @@ public class ActController {
    */
   public void initialize() {
 
-    String[] prodTypes = {"Audio", "Visual", "Memory", "Software", "Video games"};
-    for (int i = 0; i < prodTypes.length; i++) {
-      cbItems.getItems().add(i, prodTypes[i]);
+    MoviePlayer mp = new MoviePlayer("Kaplo", "Microsoft", MonitorType.LCD, MonitorType.LED);
+    System.out.println(mp);
+    //Polymorphism in action
+    Product product1 = new Widget("iPod", "Apple", ItemType.AUDIO);
+    System.out.println(product1.toString());
+    Product product2 = new Widget("Zune", "Microsoft", ItemType.AUDIO_MOBILE);
+    System.out.println(product2.toString());
+
+    //for each loop that produce the item types
+    for (ItemType it : ItemType.values()) {
+      cbItems.getItems().addAll(String.valueOf(it));
+      //System.out.println(it + " " + it.code);
     }
     cbItems.getSelectionModel().selectFirst();
+
 
     for (int i = 1; i <= 10; i++) {
       cmbQuantity.getItems().add(Integer.toString(i));
     }
     cmbQuantity.getSelectionModel().selectFirst();
   }
-
   /**
    * This method will use the text entered in the text field of the.
    * interface for the prepared statement to insert a product in the database
@@ -109,8 +118,8 @@ public class ActController {
         System.out.println("Product has been added to the database!");
         System.out.println("Products list\n");
         rowAffected = pStmt.executeUpdate();
-      } catch (Exception e) {
 
+      } catch (Exception e) {
         e.printStackTrace();
       } finally {
         if (pStmt != null) {
@@ -131,6 +140,7 @@ public class ActController {
             System.out.println(result.getString(4));
           }
         }
+
       } catch (Exception e) {
         e.printStackTrace();
       } finally {
@@ -138,7 +148,7 @@ public class ActController {
       }
       // STEP 4: Clean-up environment
       conn.close();
-      pStmt.close();
+      //pStmt.close();
     } catch (ClassNotFoundException e) {
       e.printStackTrace();
     } catch (SQLException e) {
