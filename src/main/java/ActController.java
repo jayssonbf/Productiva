@@ -13,11 +13,16 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javax.xml.crypto.Data;
 
 /**
  * Represents the creation of a database.
@@ -46,6 +51,9 @@ public class ActController {
   private ComboBox<String> cmbQuantity;
 
   @FXML
+  private TextArea txtAreaProdLog;
+
+  @FXML
   void buttonAction(ActionEvent event) {
     connectToDataBase();
   }
@@ -59,14 +67,53 @@ public class ActController {
    * and sets a default value for the combobox and choicebox
    */
   public void initialize() {
+    java.util.Date myDate = new Date();
 
-    MoviePlayer mp = new MoviePlayer("Kaplo", "Microsoft", MonitorType.LCD, MonitorType.LED);
+   // ProductionRecord prodRecord = new ProductionRecord(2, 103, "JBF03-91", myDate );
+
+//***************************************************************************************************************************
+    Widget newWidget = new Widget("iPhone11", "Apple", ItemType.VISUAL);
+
+    ProductionRecord pR = new ProductionRecord(newWidget, 1001);
+    pR.productID = newWidget.manufacturer;
+    pR.dateProduced = myDate;
+    txtAreaProdLog.setText(pR.toString());
+
+    AudioPlayer newAudioProduct = new AudioPlayer("DP-X1A", "Onkyo",
+        "DSD/FLAC/ALAC/WAV/AIFF/MQA/Ogg-Vorbis/MP3/AAC", "M3U/PLS/WPL");
+
+    Screen newScreen = new Screen("720x480", 40, 22);
+
+    MoviePlayer newMovieProduct = new MoviePlayer("DBPOWER MK101", "OracleProduction", newScreen,
+        MonitorType.LCD);
+
+    ArrayList<MultimediaControl> productList = new ArrayList<MultimediaControl>();
+    productList.add(newAudioProduct);
+    productList.add(newMovieProduct);
+    for (MultimediaControl p : productList) {
+      System.out.println(p);
+      p.play();
+      p.stop();
+      p.next();
+      p.previous();
+    }
+
+    AudioPlayer newProduct = new AudioPlayer("DP-X1A", "Onkyo", "DSD/FLAC/ALAC/WAV/AIFF/MQA/Ogg-Vorbis/MP3/AAC", "M3U/PLS/WPL");
+    System.out.println(newProduct);
+    newProduct.play();
+    newProduct.stop();
+    newProduct.next();
+    newProduct.previous();
+  /*  MoviePlayer mp = new MoviePlayer("Kaplo", "Microsoft", MonitorType.LCD, MonitorType.LED);
     System.out.println(mp);
-    //Polymorphism in action
-    Product product1 = new Widget("iPod", "Apple", ItemType.AUDIO);
-    System.out.println(product1.toString());
-    Product product2 = new Widget("Zune", "Microsoft", ItemType.AUDIO_MOBILE);
-    System.out.println(product2.toString());
+*/
+    ArrayList<Widget> productLine = new ArrayList<>();
+    productLine.add(new Widget("iPod", "Apple", ItemType.AUDIO));
+    productLine.add(new Widget("Zune", "Microsoft", ItemType.AUDIO_MOBILE));
+    for (Widget prod: productLine) {
+      System.out.println(prod);
+    }
+
 
     //for each loop that produce the item types
     for (ItemType it : ItemType.values()) {
@@ -101,19 +148,23 @@ public class ActController {
       //SQL insert statement
       String insertSql = " INSERT INTO PRODUCT(NAME, TYPE, MANUFACTURER)"
                         + " VALUES ( ?, ?, ? )";
+
+
       int rowAffected = 0;
+
       try {
         //STEP 3: Execute a PreparedStatement query
         pStmt = conn.prepareStatement(insertSql);
 
-        String prodName = txtFieldName.getText();
-        pStmt.setString(1, prodName);
+        ArrayList<String> productLine = new ArrayList<>();
+        productLine.add(txtFieldName.getText());
+        pStmt.setString(1, productLine.get(0));
 
-        String prodType = cbItems.getValue();
-        pStmt.setString(2, prodType);
+        productLine.add(cbItems.getValue());
+        pStmt.setString(2, productLine.get(1));
 
-        String prodManufacturer = txtFieldManufacturer.getText();
-        pStmt.setString(3, prodManufacturer);
+        productLine.add(txtFieldManufacturer.getText());
+        pStmt.setString(3, productLine.get(2));
 
         System.out.println("Product has been added to the database!");
         System.out.println("Products list\n");

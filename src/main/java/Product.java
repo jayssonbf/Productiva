@@ -29,13 +29,11 @@ public abstract class Product implements Item {
 
   @Override
   public String toString() {
-    return "Name: " + name + "\n" +
+    return "\nName: " + name + "\n" +
         "Manufacturer: " + manufacturer + "\n" +
-        "Type: " + type.code;
-
+        "Type: " + type;
   }
 }
-
 
 class Widget extends Product{
   //Parameterized constructor
@@ -45,4 +43,5 @@ class Widget extends Product{
     this.manufacturer = manufacturer;
     type = item;
   }
+
 }

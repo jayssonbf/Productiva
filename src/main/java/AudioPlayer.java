@@ -1,20 +1,19 @@
-abstract class AudioPlayer extends Product implements MultimediaControl{
+public class AudioPlayer extends Product implements MultimediaControl{
 
   private String supportedAudioFormats;
   private String supportedPlaylistFormats;
 
-  public AudioPlayer(String name, String manufacturer, ItemType type, String supportedAudioFormats, String supportedPlaylistFormats){
-    super(name, manufacturer, type);
+  public AudioPlayer(String name, String manufacturer, String supportedAudioFormats, String supportedPlaylistFormats){
+    super(name, manufacturer, ItemType.AUDIO);
     this.supportedAudioFormats = supportedAudioFormats;
     this.supportedPlaylistFormats = supportedPlaylistFormats;
-    this.type = ItemType.AUDIO;
   }
 
   public void play(){
     System.out.println("Playing");
   }
   public void stop(){
-    System.out.println("Stop");
+    System.out.println("Stopping");
   }
   public void previous(){
     System.out.println("Previous");
@@ -26,11 +25,8 @@ abstract class AudioPlayer extends Product implements MultimediaControl{
   @Override
   public String toString( ) {
     return super.toString() +
-        "Supported AudioFormats = " + supportedAudioFormats + "\n" +
-        "Supported PlaylistFormats = " + supportedPlaylistFormats + "\n";
-        /*"id = " + id + "\n" +
-        "Name = " + name + "\n" +
-        "Manufacturer = " + manufacturer + "\n" +
-        "Type = " + type;*/
+        "\nSupported Audio Formats: " + supportedAudioFormats + "\n" +
+        "Supported Playlist Formats: " + supportedPlaylistFormats;
+
   }
 }

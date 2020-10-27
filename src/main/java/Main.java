@@ -37,7 +37,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
     Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
 
-    Scene scene = new Scene(root, 400, 300);
+    Scene scene = new Scene(root, 450, 350);
     scene.getStylesheets().add("stylish.css");
 
     primaryStage.setTitle("Product Management System");

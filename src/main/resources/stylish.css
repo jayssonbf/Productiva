@@ -1,9 +1,18 @@
 .root{
-  -fx-background-color: #add8e6;
-  -fx-font-size: 14px;
+  -fx-background-color: linear-gradient(#ddeaee, #00BCD4);
+  -fx-font-size: 13px;
   -fx-font-family: sans-serif;
+
+
 }
 
 .tab{
-  -fx-background-color: #FFFFFF;
+  -fx-background-color: #ffffff;
+  -fx-border-style: solid;
+  -fx-border-color: linear-gradient(#ddeaee, #00BCD4);
+}
+
+.label{
+  -fx-text-fill: #070707;
+  //-fx-background-radius: 6;
 }
