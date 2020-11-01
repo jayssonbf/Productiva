@@ -8,6 +8,7 @@ for: A production management system that adds new records to a database
 ---------------------------------------------------------------------------*/
 
 //import required packages
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,20 +17,29 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
 import javax.xml.crypto.Data;
+import org.h2.table.Table;
 
 /**
- * Represents the creation of a database.
- * Many products can be inserted into the database
+ * Represents the creation of a database. Many products can be inserted into the database
+ *
  * @author Jaysson Balbuena
  */
 public class ActController {
+
   //JDBC driver name and database URL
   static final String JDBC_DRIVER = "org.h2.Driver";
   static final String DB_URL = "jdbc:h2:./res/prodMgt";
@@ -54,30 +64,39 @@ public class ActController {
   private TextArea txtAreaProdLog;
 
   @FXML
-  void buttonAction(ActionEvent event) {
+  private TableView<Widget> table;
+
+  @FXML
+  private TableColumn<Product, Integer> prodIDColumn;
+
+  @FXML
+  private TableColumn<Widget, String> prodNameColumn;
+
+  @FXML
+  private TableColumn<Widget, String> manufacturerColumn;
+
+  @FXML
+  private TableColumn<Widget, ItemType> itemTypeColumn;
+
+  @FXML
+  private ListView<Widget> listView;
+
+  @FXML
+  void buttonAction( ActionEvent event ) {
     connectToDataBase();
   }
 
   @FXML
-  void recProd(ActionEvent event) {
+  void recProd( ActionEvent event ) {
   }
 
+  ObservableList<Widget> prodLine;
+
   /**
-   *This method is called automatically when the controller loads.
-   * and sets a default value for the combobox and choicebox
+   * This method is called automatically when the controller loads. and sets a default value for the
+   * combobox and choicebox
    */
-  public void initialize() {
-    java.util.Date myDate = new Date();
-
-   // ProductionRecord prodRecord = new ProductionRecord(2, 103, "JBF03-91", myDate );
-
-//***************************************************************************************************************************
-    Widget newWidget = new Widget("iPhone11", "Apple", ItemType.VISUAL);
-
-    ProductionRecord pR = new ProductionRecord(newWidget, 1001);
-    pR.productID = newWidget.manufacturer;
-    pR.dateProduced = myDate;
-    txtAreaProdLog.setText(pR.toString());
+  public void initialize( ) {
 
     AudioPlayer newAudioProduct = new AudioPlayer("DP-X1A", "Onkyo",
         "DSD/FLAC/ALAC/WAV/AIFF/MQA/Ogg-Vorbis/MP3/AAC", "M3U/PLS/WPL");
@@ -98,45 +117,47 @@ public class ActController {
       p.previous();
     }
 
-    AudioPlayer newProduct = new AudioPlayer("DP-X1A", "Onkyo", "DSD/FLAC/ALAC/WAV/AIFF/MQA/Ogg-Vorbis/MP3/AAC", "M3U/PLS/WPL");
+    AudioPlayer newProduct = new AudioPlayer("DP-X1A", "Onkyo",
+        "DSD/FLAC/ALAC/WAV/AIFF/MQA/Ogg-Vorbis/MP3/AAC", "M3U/PLS/WPL");
     System.out.println(newProduct);
     newProduct.play();
     newProduct.stop();
     newProduct.next();
     newProduct.previous();
-  /*  MoviePlayer mp = new MoviePlayer("Kaplo", "Microsoft", MonitorType.LCD, MonitorType.LED);
-    System.out.println(mp);
-*/
+
     ArrayList<Widget> productLine = new ArrayList<>();
     productLine.add(new Widget("iPod", "Apple", ItemType.AUDIO));
     productLine.add(new Widget("Zune", "Microsoft", ItemType.AUDIO_MOBILE));
-    for (Widget prod: productLine) {
+    for (Widget prod : productLine) {
       System.out.println(prod);
     }
-
 
     //for each loop that produce the item types
     for (ItemType it : ItemType.values()) {
       cbItems.getItems().addAll(String.valueOf(it));
-      //System.out.println(it + " " + it.code);
     }
     cbItems.getSelectionModel().selectFirst();
-
 
     for (int i = 1; i <= 10; i++) {
       cmbQuantity.getItems().add(Integer.toString(i));
     }
     cmbQuantity.getSelectionModel().selectFirst();
+
+
   }
+
+
   /**
-   * This method will use the text entered in the text field of the.
-   * interface for the prepared statement to insert a product in the database
-   * table
-   * */
-  public void connectToDataBase() {
+   * This method will use the text entered in the text field of the. interface for the prepared
+   * statement to insert a product in the database table
+   */
+  public void connectToDataBase( ) {
+
 
     Connection conn = null;
     PreparedStatement pStmt = null;
+    //Observable list
+    prodLine = FXCollections.observableArrayList();
 
     try {
       // STEP 1: Register JDBC driver
@@ -147,10 +168,10 @@ public class ActController {
 
       //SQL insert statement
       String insertSql = " INSERT INTO PRODUCT(NAME, TYPE, MANUFACTURER)"
-                        + " VALUES ( ?, ?, ? )";
-
+          + " VALUES ( ?, ?, ? )";
 
       int rowAffected = 0;
+      ItemType data;
 
       try {
         //STEP 3: Execute a PreparedStatement query
@@ -183,14 +204,35 @@ public class ActController {
         pStmt = conn.prepareStatement(sql);
         ResultSet result = pStmt.executeQuery();
 
+
         if (rowAffected > 0) {
+
           while (result.next()) {
+            data = ItemType.valueOf(result.getString(3));
+            prodLine.add(new Widget(result.getString(2), result.getString(4), data));
+
+            prodNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+            manufacturerColumn.setCellValueFactory(new PropertyValueFactory<>("manufacturer"));
+
+            itemTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+
+            //Display all products in the Product Line Tab when add button is clicked
+            table.setItems(prodLine);
+
+            //Display all products in the Produce tab ListView
+            listView.setItems(prodLine);
+
+
+            txtAreaProdLog.appendText(toString() + "\n");
             //Display value to the console
-            System.out.print(result.getString(2) + " ");
+            /*System.out.print(result.getString(2) + " ");
             System.out.print(result.getString(3) + " ");
-            System.out.println(result.getString(4));
+            System.out.println(result.getString(4));*/
           }
+
         }
+
 
       } catch (Exception e) {
         e.printStackTrace();

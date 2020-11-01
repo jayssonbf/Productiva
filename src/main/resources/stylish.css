@@ -3,7 +3,6 @@
   -fx-font-size: 13px;
   -fx-font-family: sans-serif;
 
-
 }
 
 .tab{
@@ -15,4 +14,8 @@
 .label{
   -fx-text-fill: #070707;
   //-fx-background-radius: 6;
+}
+
+.button{
+  -fx-border-color: #04f51c;
 }

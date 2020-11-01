@@ -1,29 +1,28 @@
 import java.util.Date;
 
-public class ProductionRecord <T> {
+public class ProductionRecord<G> {
 
   int productionNumber;
-  T productID;
+  G productID;
   String serialNumber;
   Date dateProduced;
 
-  ProductionRecord(T productID){
+  ProductionRecord( G productID ) {
     this.productID = productID;
     this.productionNumber = 0;
     this.serialNumber = null;
     this.dateProduced = new Date();
   }
 
-  ProductionRecord(int productionNumber, T productID, String serialNumber, Date dateProduced){
+  ProductionRecord( int productionNumber, G productID, String serialNumber, Date dateProduced ) {
     this.productionNumber = 0;
     this.serialNumber = "0";
     this.productID = productID;
     this.dateProduced = new Date();
   }
 
-  public ProductionRecord(Product product, int itemsCount) {
-    System.out.println("Inside from ProductionRecord constructor");
-    this.serialNumber = product.manufacturer.substring(0,3) + product.type.code + itemsCount;
+  public ProductionRecord( Product product, int itemsCount ) {
+    this.serialNumber = product.manufacturer.substring(0, 3) + product.type.getCode() + itemsCount;
 
   }
 
@@ -35,11 +34,11 @@ public class ProductionRecord <T> {
     this.productionNumber = productionNumber;
   }
 
-  public T getProductID( ) {
+  public G getProductID( ) {
     return productID;
   }
 
-  public void setProductID( T productID ) {
+  public void setProductID( G productID ) {
     this.productID = productID;
   }
 
@@ -62,6 +61,6 @@ public class ProductionRecord <T> {
   @Override
   public String toString( ) {
     return "Prod. Num: " + productionNumber + " " + "Product ID: " + productID +
-            " " + "Serial Num: " + serialNumber + " " + "Date: " + dateProduced;
+        " " + "Serial Num: " + serialNumber + " " + "Date: " + dateProduced;
   }
 }
