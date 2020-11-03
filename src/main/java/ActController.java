@@ -88,9 +88,12 @@ public class ActController {
 
   @FXML
   void recProd( ActionEvent event ) {
+    recordProdButtonClicked();
   }
 
   ObservableList<Widget> prodLine;
+  int inc;
+
 
   /**
    * This method is called automatically when the controller loads. and sets a default value for the
@@ -146,13 +149,35 @@ public class ActController {
 
   }
 
+  public void recordProdButtonClicked( ) {
+
+    inc = 1;
+    int size;
+
+    Product selectedItem;
+
+    selectedItem = listView.getSelectionModel().getSelectedItem();
+
+    ProductionRecord prodRecord = new ProductionRecord(selectedItem, inc);
+
+    if (cmbQuantity.getSelectionModel().getSelectedIndex() + 1 > 1) {
+      size = Integer.valueOf(cmbQuantity.getSelectionModel().getSelectedItem());
+      for (int i = 0; i < size; i++) {
+        prodRecord = new ProductionRecord(selectedItem, inc++);
+        txtAreaProdLog.appendText(prodRecord.toString() + "\n");
+
+      }
+    } else {
+      txtAreaProdLog.appendText(prodRecord.toString() + "\n");
+    }
+
+  }
 
   /**
    * This method will use the text entered in the text field of the. interface for the prepared
    * statement to insert a product in the database table
    */
   public void connectToDataBase( ) {
-
 
     Connection conn = null;
     PreparedStatement pStmt = null;
@@ -204,7 +229,6 @@ public class ActController {
         pStmt = conn.prepareStatement(sql);
         ResultSet result = pStmt.executeQuery();
 
-
         if (rowAffected > 0) {
 
           while (result.next()) {
@@ -223,16 +247,14 @@ public class ActController {
             //Display all products in the Produce tab ListView
             listView.setItems(prodLine);
 
-
-            txtAreaProdLog.appendText(toString() + "\n");
             //Display value to the console
             /*System.out.print(result.getString(2) + " ");
             System.out.print(result.getString(3) + " ");
             System.out.println(result.getString(4));*/
+
           }
 
         }
-
 
       } catch (Exception e) {
         e.printStackTrace();
