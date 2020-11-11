@@ -1,34 +1,32 @@
-import java.util.Date;
+import java.sql.Timestamp;
 
-public class ProductionRecord<G> {
+public class ProductionRecord {
 
   int productionNumber;
   int productID;
   String serialNumber;
-  Date dateProduced;
+  Timestamp dateProduced;
 
-  ProductionRecord( int productID ) {
+  public ProductionRecord( int productID ) {
     this.productID = productID;
     this.productionNumber = 0;
     this.serialNumber = null;
-    this.dateProduced = new Date();
+    this.dateProduced = new Timestamp(System.currentTimeMillis());
   }
 
-  ProductionRecord( int productionNumber, int productID, String serialNumber, Date dateProduced ) {
-    this.productionNumber = 0;
-    this.serialNumber = "0";
+  public ProductionRecord( int productionNumber, int productID, String serialNumber, Timestamp dateProduced ) {
+    this.productionNumber = productionNumber;
+    this.serialNumber = serialNumber;
     this.productID = productID;
-    this.dateProduced = new Date();
+    this.dateProduced = dateProduced;
   }
 
   public ProductionRecord( Product product, int itemsCount ) {
     this.productionNumber = 0;
     this.productID = 0;
-    this.dateProduced = new Date();
+    this.dateProduced = new Timestamp(System.currentTimeMillis());
     this.serialNumber = product.manufacturer.substring(0, 3) + product.type.getCode() + "0000" + itemsCount;
-
   }
-
 
   @Override
   public String toString( ) {

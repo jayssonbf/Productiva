@@ -56,7 +56,7 @@
                           </Button>
                   <TableView fx:id="table" layoutX="14.0" layoutY="229.0" prefHeight="370.0" prefWidth="472.0">
                     <columns>
-                      <TableColumn fx:id="prodIDColumn" prefWidth="75.0" text="Product ID" />
+                      <TableColumn fx:id="prodIdColumn" prefWidth="75.0" text="Product ID" />
                       <TableColumn fx:id="prodNameColumn" prefWidth="113.60004425048828" text="Product Name" />
                         <TableColumn fx:id="manufacturerColumn" prefWidth="113.60004425048828" text="Manufacturer" />
                         <TableColumn fx:id="itemTypeColumn" prefWidth="113.60004425048828" text="Item Type" />

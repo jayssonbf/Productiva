@@ -14,13 +14,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
@@ -29,9 +29,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.VBox;
-import javax.xml.crypto.Data;
-import org.h2.table.Table;
+import javax.swing.DefaultListSelectionModel;
 
 /**
  * Represents the creation of a database. Many products can be inserted into the database
@@ -67,7 +65,7 @@ public class ActController {
   private TableView<Widget> table;
 
   @FXML
-  private TableColumn<Product, Integer> prodIDColumn;
+  private TableColumn<Product, Integer> prodIdColumn;
 
   @FXML
   private TableColumn<Widget, String> prodNameColumn;
@@ -83,16 +81,20 @@ public class ActController {
 
   @FXML
   void buttonAction( ActionEvent event ) {
-    connectToDataBase();
+    addProduct();
   }
 
   @FXML
   void recProd( ActionEvent event ) {
-    recordProdButtonClicked();
+    recordProductionBtn();
   }
 
-  ObservableList<Widget> prodLine;
-  int inc;
+  //Observable list
+  ObservableList<Widget> productLine = FXCollections.observableArrayList();
+  private Connection conn = null;
+  private PreparedStatement pStmt = null;
+  private int inc;
+  private int calls;
 
 
   /**
@@ -100,8 +102,12 @@ public class ActController {
    * combobox and choicebox
    */
   public void initialize( ) {
+    connectToDataBase();
+    setupProductLineTable();
+    loadProductList();
+    loadProductionLog();
 
-    AudioPlayer newAudioProduct = new AudioPlayer("DP-X1A", "Onkyo",
+   /* AudioPlayer newAudioProduct = new AudioPlayer("DP-X1A", "Onkyo",
         "DSD/FLAC/ALAC/WAV/AIFF/MQA/Ogg-Vorbis/MP3/AAC", "M3U/PLS/WPL");
 
     Screen newScreen = new Screen("720x480", 40, 22);
@@ -133,7 +139,7 @@ public class ActController {
     productLine.add(new Widget("Zune", "Microsoft", ItemType.AUDIO_MOBILE));
     for (Widget prod : productLine) {
       System.out.println(prod);
-    }
+    }*/
 
     //for each loop that produce the item types
     for (ItemType it : ItemType.values()) {
@@ -146,43 +152,128 @@ public class ActController {
     }
     cmbQuantity.getSelectionModel().selectFirst();
 
+  }
+
+  private void setupProductLineTable( ) {
+
+    //Table columns associated with the cell value factory
+    prodNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+    manufacturerColumn.setCellValueFactory(new PropertyValueFactory<>("manufacturer"));
+
+    itemTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+
+    /*table.getItems().add(new Widget("iphone 12", "Apple", ItemType.AUDIO));
+    table.getItems().add(new Widget("iphone 13", "Apple", ItemType.AUDIO));*/
 
   }
 
-  public void recordProdButtonClicked( ) {
+  private void recordProductionBtn( ) {
 
     inc = 1;
-    int size;
+    int size = Integer.parseInt(cmbQuantity.getSelectionModel().getSelectedItem());
 
-    Product selectedItem;
+    Product selectedItem = listView.getSelectionModel().getSelectedItem();
 
-    selectedItem = listView.getSelectionModel().getSelectedItem();
-
-    ProductionRecord prodRecord = new ProductionRecord(selectedItem, inc);
+    ArrayList<ProductionRecord> productionRun = new ArrayList<>();
 
     if (cmbQuantity.getSelectionModel().getSelectedIndex() + 1 > 1) {
-      size = Integer.valueOf(cmbQuantity.getSelectionModel().getSelectedItem());
+
       for (int i = 0; i < size; i++) {
-        prodRecord = new ProductionRecord(selectedItem, inc++);
-        txtAreaProdLog.appendText(prodRecord.toString() + "\n");
+
+        productionRun.add(new ProductionRecord(selectedItem, inc++));
+        txtAreaProdLog.appendText(productionRun.get(i).toString() + "\n");
 
       }
     } else {
-      txtAreaProdLog.appendText(prodRecord.toString() + "\n");
+      productionRun.add(new ProductionRecord(selectedItem, inc++));
+      txtAreaProdLog.appendText(productionRun.get(0).toString() + "\n");
     }
-
+    addProductionDB(productionRun);
+    txtAreaProdLog.clear();
+   loadProductionLog();
+   // showProduction();
   }
 
-  /**
-   * This method will use the text entered in the text field of the. interface for the prepared
-   * statement to insert a product in the database table
-   */
-  public void connectToDataBase( ) {
+  private void loadProductionLog( ) {
+    try {
+      //SLQ select statement
+      String sql = "SELECT * FROM PRODUCTIONRECORD";
+      pStmt = conn.prepareStatement(sql);
+      ResultSet rs = pStmt.executeQuery();
 
-    Connection conn = null;
-    PreparedStatement pStmt = null;
-    //Observable list
-    prodLine = FXCollections.observableArrayList();
+      while (rs.next()) {
+
+        ProductionRecord productionRecord = new ProductionRecord(rs.getInt(1), rs.getInt(2),
+            rs.getString(3), rs.getTimestamp(4));
+
+        txtAreaProdLog.appendText(productionRecord.toString() + "\n");
+      }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+  }
+
+  private void showProduction( ) {
+    // txtAreaProdLog.appendText(  + "\n");
+  }
+
+  private void addProductionDB( ArrayList<ProductionRecord> productionRun ) {
+
+    for (int i = 0; i < productionRun.size(); i++) {
+
+      try {
+        String sql = " INSERT INTO PRODUCTIONRECORD(PRODUCT_ID, SERIAL_NUM, DATE_PRODUCED)"
+            + " VALUES ( ?, ?, ? )";
+        pStmt = conn.prepareStatement(sql);
+
+        pStmt.setInt(1, productionRun.get(i).productID);
+        pStmt.setString(2, productionRun.get(i).serialNumber);
+        pStmt.setTimestamp(3, productionRun.get(i).dateProduced);
+
+        pStmt.executeUpdate();
+
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+
+    }
+  }
+
+  private void loadProductList( ) {
+
+    ItemType itemType;
+    try {
+      //SLQ select statement
+      String sql = "SELECT * FROM PRODUCT";
+      pStmt = conn.prepareStatement(sql);
+      ResultSet result = pStmt.executeQuery();
+
+      while (result.next()) {
+        itemType = ItemType.valueOf(result.getString(3));
+
+        Widget product = new Widget(result.getString(2), result.getString(4),
+            itemType);
+
+        //Save to observable list
+        productLine.add(product);
+
+        table.setItems(productLine);
+        listView.setItems(productLine);
+
+        //Display value to the console
+          /*System.out.print(result.getString(2) + " ");
+          System.out.print(result.getString(3) + " ");
+          System.out.println(result.getString(4));*/
+      }
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  private void connectToDataBase( ) {
 
     try {
       // STEP 1: Register JDBC driver
@@ -190,84 +281,48 @@ public class ActController {
 
       //STEP 2: Open a connection
       conn = DriverManager.getConnection(DB_URL, USER, PASS);
-
-      //SQL insert statement
-      String insertSql = " INSERT INTO PRODUCT(NAME, TYPE, MANUFACTURER)"
-          + " VALUES ( ?, ?, ? )";
-
-      int rowAffected = 0;
-      ItemType data;
-
-      try {
-        //STEP 3: Execute a PreparedStatement query
-        pStmt = conn.prepareStatement(insertSql);
-
-        ArrayList<String> productLine = new ArrayList<>();
-        productLine.add(txtFieldName.getText());
-        pStmt.setString(1, productLine.get(0));
-
-        productLine.add(cbItems.getValue());
-        pStmt.setString(2, productLine.get(1));
-
-        productLine.add(txtFieldManufacturer.getText());
-        pStmt.setString(3, productLine.get(2));
-
-        System.out.println("Product has been added to the database!");
-        System.out.println("Products list\n");
-        rowAffected = pStmt.executeUpdate();
-
-      } catch (Exception e) {
-        e.printStackTrace();
-      } finally {
-        if (pStmt != null) {
-          pStmt.close();
-        }
-      }
-
-      try {  //SLQ select statement
-        String sql = "SELECT * FROM PRODUCT";
-        pStmt = conn.prepareStatement(sql);
-        ResultSet result = pStmt.executeQuery();
-
-        if (rowAffected > 0) {
-
-          while (result.next()) {
-            data = ItemType.valueOf(result.getString(3));
-            prodLine.add(new Widget(result.getString(2), result.getString(4), data));
-
-            prodNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-
-            manufacturerColumn.setCellValueFactory(new PropertyValueFactory<>("manufacturer"));
-
-            itemTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-
-            //Display all products in the Product Line Tab when add button is clicked
-            table.setItems(prodLine);
-
-            //Display all products in the Produce tab ListView
-            listView.setItems(prodLine);
-
-            //Display value to the console
-            /*System.out.print(result.getString(2) + " ");
-            System.out.print(result.getString(3) + " ");
-            System.out.println(result.getString(4));*/
-
-          }
-
-        }
-
-      } catch (Exception e) {
-        e.printStackTrace();
-      } finally {
-        pStmt.close();
-      }
-      // STEP 4: Clean-up environment
-      conn.close();
-      //pStmt.close();
-    } catch (ClassNotFoundException e) {
-      e.printStackTrace();
-    } catch (SQLException e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }
+
+  /**
+   * This method will use the text entered in the text field of the. interface for the prepared
+   * statement to insert a product in the database table
+   */
+  public void addProduct( ) {
+
+    try {//SQL insert statement
+      String sql = " INSERT INTO PRODUCT(NAME, TYPE, MANUFACTURER)"
+          + " VALUES ( ?, ?, ? )";
+
+      //STEP 3: Execute a PreparedStatement query
+      pStmt = conn.prepareStatement(sql);
+
+      ArrayList<String> productLine = new ArrayList<>();
+      productLine.add(txtFieldName.getText());
+      pStmt.setString(1, productLine.get(0));
+
+      productLine.add(cbItems.getValue());
+      pStmt.setString(2, productLine.get(1));
+
+      productLine.add(txtFieldManufacturer.getText());
+      pStmt.setString(3, productLine.get(2));
+
+      System.out.println("Product has been added to the database!");
+
+      pStmt.executeUpdate();
+      table.getItems().clear();
+      listView.getItems().clear();
+      loadProductList();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+  }
 }
+
+
+
+
