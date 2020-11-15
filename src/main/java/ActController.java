@@ -14,13 +14,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
@@ -29,7 +27,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javax.swing.DefaultListSelectionModel;
 
 /**
  * Represents the creation of a database. Many products can be inserted into the database
@@ -92,9 +89,9 @@ public class ActController {
   //Observable list
   ObservableList<Widget> productLine = FXCollections.observableArrayList();
   private Connection conn = null;
-  private PreparedStatement pStmt = null;
+  private PreparedStatement pstmt = null;
   private int inc;
-  private int calls;
+
 
 
   /**
@@ -102,10 +99,16 @@ public class ActController {
    * combobox and choicebox
    */
   public void initialize( ) {
+
+    Employee employee = new Employee("Jaysson Balbuena", "abcd!");
+    System.out.println(employee);
+
     connectToDataBase();
     setupProductLineTable();
     loadProductList();
     loadProductionLog();
+
+
 
    /* AudioPlayer newAudioProduct = new AudioPlayer("DP-X1A", "Onkyo",
         "DSD/FLAC/ALAC/WAV/AIFF/MQA/Ogg-Vorbis/MP3/AAC", "M3U/PLS/WPL");
@@ -199,8 +202,8 @@ public class ActController {
     try {
       //SLQ select statement
       String sql = "SELECT * FROM PRODUCTIONRECORD";
-      pStmt = conn.prepareStatement(sql);
-      ResultSet rs = pStmt.executeQuery();
+      pstmt = conn.prepareStatement(sql);
+      ResultSet rs = pstmt.executeQuery();
 
       while (rs.next()) {
 
@@ -210,13 +213,10 @@ public class ActController {
         txtAreaProdLog.appendText(productionRecord.toString() + "\n");
       }
 
+
     } catch (Exception e) {
         e.printStackTrace();
     }
-  }
-
-  private void showProduction( ) {
-    // txtAreaProdLog.appendText(  + "\n");
   }
 
   private void addProductionDB( ArrayList<ProductionRecord> productionRun ) {
@@ -226,14 +226,15 @@ public class ActController {
       try {
         String sql = " INSERT INTO PRODUCTIONRECORD(PRODUCT_ID, SERIAL_NUM, DATE_PRODUCED)"
             + " VALUES ( ?, ?, ? )";
-        pStmt = conn.prepareStatement(sql);
+        pstmt = conn.prepareStatement(sql);
 
-        pStmt.setInt(1, productionRun.get(i).productID);
-        pStmt.setString(2, productionRun.get(i).serialNumber);
-        pStmt.setTimestamp(3, productionRun.get(i).dateProduced);
+        pstmt.setInt(1, productionRun.get(i).productID);
+        pstmt.setString(2, productionRun.get(i).serialNumber);
+        pstmt.setTimestamp(3, productionRun.get(i).dateProduced);
 
-        pStmt.executeUpdate();
+        pstmt.executeUpdate();
 
+        pstmt.close();
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -244,12 +245,14 @@ public class ActController {
   private void loadProductList( ) {
 
     ItemType itemType;
+
     try {
       //SLQ select statement
       String sql = "SELECT * FROM PRODUCT";
-      pStmt = conn.prepareStatement(sql);
-      ResultSet result = pStmt.executeQuery();
+      pstmt = conn.prepareStatement(sql);
+      ResultSet result = pstmt.executeQuery();
 
+      //Extract data from result set
       while (result.next()) {
         itemType = ItemType.valueOf(result.getString(3));
 
@@ -267,8 +270,10 @@ public class ActController {
           System.out.print(result.getString(3) + " ");
           System.out.println(result.getString(4));*/
       }
+      pstmt.close();
+      result.close();
 
-    } catch (Exception e) {
+    } catch (SQLException e) {
       e.printStackTrace();
     }
   }
@@ -281,11 +286,13 @@ public class ActController {
 
       //STEP 2: Open a connection
       conn = DriverManager.getConnection(DB_URL, USER, PASS);
-    } catch (Exception e) {
+
+    } catch (SQLException e) {
       e.printStackTrace();
+    } catch (ClassNotFoundException e) {
+      System.out.println("Error: unable to load driver class!");
     }
   }
-
   /**
    * This method will use the text entered in the text field of the. interface for the prepared
    * statement to insert a product in the database table
@@ -297,21 +304,21 @@ public class ActController {
           + " VALUES ( ?, ?, ? )";
 
       //STEP 3: Execute a PreparedStatement query
-      pStmt = conn.prepareStatement(sql);
+      pstmt = conn.prepareStatement(sql);
 
       ArrayList<String> productLine = new ArrayList<>();
       productLine.add(txtFieldName.getText());
-      pStmt.setString(1, productLine.get(0));
+      pstmt.setString(1, productLine.get(0));
 
       productLine.add(cbItems.getValue());
-      pStmt.setString(2, productLine.get(1));
+      pstmt.setString(2, productLine.get(1));
 
       productLine.add(txtFieldManufacturer.getText());
-      pStmt.setString(3, productLine.get(2));
+      pstmt.setString(3, productLine.get(2));
 
       System.out.println("Product has been added to the database!");
 
-      pStmt.executeUpdate();
+      pstmt.executeUpdate();
       table.getItems().clear();
       listView.getItems().clear();
       loadProductList();
@@ -321,6 +328,7 @@ public class ActController {
     }
 
   }
+
 }
 
 

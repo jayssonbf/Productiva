@@ -48,5 +48,6 @@ public class Main extends Application {
     primaryStage.setTitle("Product Management System");
     primaryStage.setScene(scene);
     primaryStage.show();
+
   }
 }

@@ -18,14 +18,14 @@ public class ProductionRecord {
     this.productionNumber = productionNumber;
     this.serialNumber = serialNumber;
     this.productID = productID;
-    this.dateProduced = dateProduced;
+    this.dateProduced = new Timestamp(dateProduced.getTime());
   }
 
   public ProductionRecord( Product product, int itemsCount ) {
     this.productionNumber = 0;
     this.productID = 0;
     this.dateProduced = new Timestamp(System.currentTimeMillis());
-    this.serialNumber = product.manufacturer.substring(0, 3) + product.type.getCode() + "0000" + itemsCount;
+    this.serialNumber = product.manufacturer.substring(0, 3) + product.type.getCode() + String.format("%05d", itemsCount );
   }
 
   @Override
