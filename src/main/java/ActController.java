@@ -9,6 +9,7 @@ for: A production management system that adds new records to a database
 
 //import required packages
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -19,14 +20,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * Represents the creation of a database. Many products can be inserted into the database
@@ -42,6 +46,7 @@ public class ActController {
   // Database credentials
   static final String USER = "";
   static final String PASS = "";
+
 
   @FXML
   private TextField txtFieldName;
@@ -91,6 +96,7 @@ public class ActController {
   private Connection conn = null;
   private PreparedStatement pstmt = null;
   private int inc;
+
 
 
 
@@ -327,6 +333,61 @@ public class ActController {
       e.printStackTrace();
     }
 
+  }
+
+  public void addEmployee(Employee emp){
+    System.out.println("INSIDE addEmployee: " + emp);
+
+    try{
+      String sql = " INSERT INTO EMPLOYEE(NAME, USERNAME, EMAIL, PASSWORD)"
+          + " VALUES ( ?, ?, ?, ? )";
+
+      //Execute a PreparedStatement query
+      pstmt = conn.prepareStatement(sql);
+
+      pstmt.setString(1, emp.name.toString());
+      pstmt.setString(2, emp.userName);
+      pstmt.setString(3, emp.email);
+      pstmt.setString(4, emp.password);
+
+      pstmt.executeUpdate();
+
+    }catch (SQLException e){
+      e.printStackTrace();
+    }
+  }
+
+  public boolean loadEmployee(String userName, String password){
+
+    boolean accountExist = false;
+
+    try {
+      //SLQ select statement
+      String sql = "SELECT * FROM EMPLOYEE";
+      pstmt = conn.prepareStatement(sql);
+      ResultSet rs = pstmt.executeQuery();
+
+      while (rs.next()) {
+
+        String employeeUsername = rs.getString(4);
+        String employeePassword = rs.getString(3);
+
+        System.out.println("Username: " + employeeUsername);
+        System.out.println("Password: " + employeePassword);
+
+
+
+        if(employeeUsername.equals(userName) && employeePassword.equals(password)){
+          System.out.println("Account found");
+          accountExist = true;
+        }
+      }
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    return accountExist;
   }
 
 }
