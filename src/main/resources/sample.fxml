@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
@@ -17,7 +18,6 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <TabPane prefHeight="650.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ActController">
@@ -26,34 +26,43 @@
          <content>
             <AnchorPane>
                <children>
-                  <VBox alignment="TOP_CENTER" prefHeight="620.0" prefWidth="500.0" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <Label alignment="CENTER" layoutX="143.0" layoutY="62.0" text="Employee Details">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <Hyperlink layoutX="416.0" layoutY="20.0" onAction="#logout" text="Log out">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Hyperlink>
+                  <GridPane layoutX="53.0" layoutY="130.0" maxWidth="350.0" prefWidth="350.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="169.4000244140625" minWidth="10.0" prefWidth="108.60003662109375" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="241.39996337890625" minWidth="10.0" prefWidth="241.39996337890625" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
                      <children>
-                        <Label text="Employee Details " textAlignment="CENTER">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Label>
-                        <GridPane maxWidth="300.0" prefWidth="300.0">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                           <children>
-                              <Label text="Label" />
-                              <Label layoutX="10.0" layoutY="16.0" text="Label" GridPane.rowIndex="1" />
-                              <Label layoutX="10.0" layoutY="47.0" text="Label" GridPane.rowIndex="2" />
-                              <Label layoutX="10.0" layoutY="16.0" text="Label" GridPane.columnIndex="1" />
-                              <Label layoutX="10.0" layoutY="47.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <Label layoutX="10.0" layoutY="77.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                           </children>
-                        </GridPane>
+                        <Label text="Name:" />
+                        <Label text="Username:" GridPane.rowIndex="1" />
+                        <Label text="Password:" GridPane.rowIndex="2" />
+                        <Label text="Email:" GridPane.rowIndex="3" />
+                        <Label fx:id="nameLBL" prefHeight="22.0" prefWidth="240.0" GridPane.columnIndex="1" />
+                        <Label fx:id="usernameLBL" prefHeight="21.0" prefWidth="238.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label fx:id="passwordLBL" prefHeight="22.0" prefWidth="241.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label fx:id="emailLBL" prefHeight="18.0" prefWidth="240.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
-                  </VBox>
+                  </GridPane>
+                  <Label fx:id="test" alignment="CENTER" layoutX="143.0" layoutY="371.0" prefHeight="35.0" prefWidth="215.0">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
          </content>
@@ -62,36 +71,37 @@
            <content>
               <AnchorPane prefHeight="304.0" prefWidth="416.0">
                  <children>
-                    <GridPane alignment="TOP_CENTER" hgap="10.0" layoutX="28.0" layoutY="46.0" prefHeight="129.0" prefWidth="395.0" vgap="10.0">
+                    <GridPane alignment="TOP_CENTER" layoutX="89.0" layoutY="27.0" prefHeight="126.0" prefWidth="322.0">
                       <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.79998779296875" minWidth="10.0" prefWidth="183.9999755859375" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="270.79998779296875" minWidth="10.0" prefWidth="211.2000244140625" />
                       </columnConstraints>
                       <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="35.000006103515624" minHeight="10.0" prefHeight="29.600006103515625" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="24.000003051757815" minHeight="10.0" prefHeight="18.399993896484375" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="34.799996948242196" minHeight="10.0" prefHeight="29.599999999999994" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="30.199987792968756" minHeight="10.0" prefHeight="17.599999999999994" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="46.79999389648438" minHeight="10.0" prefHeight="30.200000000000003" vgrow="SOMETIMES" />
                       </rowConstraints>
                        <children>
                           <Label text="Product Name" textAlignment="CENTER" />
-                          <TextField fx:id="txtFieldName" prefHeight="25.0" prefWidth="121.0" GridPane.columnIndex="1" />
-                          <Label layoutX="10.0" layoutY="26.0" textAlignment="CENTER" GridPane.rowIndex="1" />
-                          <TextField fx:id="txtFieldManufacturer" layoutX="140.0" layoutY="22.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                          <Label layoutX="10.0" layoutY="127.0" text="Manufacturer" textAlignment="CENTER" GridPane.rowIndex="1" />
-                          <ChoiceBox fx:id="cbItems" prefHeight="28.0" prefWidth="172.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                          <Label layoutX="10.0" layoutY="26.0" textAlignment="CENTER" GridPane.rowIndex="2" />
+                          <TextField fx:id="txtFieldManufacturer" layoutX="140.0" layoutY="22.0" maxHeight="16.0" maxWidth="172.0" onKeyTyped="#manufacturerTyped" prefHeight="16.0" prefWidth="172.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                          <Label layoutX="10.0" layoutY="127.0" text="Manufacturer" textAlignment="CENTER" GridPane.rowIndex="2" />
+                          <ChoiceBox fx:id="cbItems" prefHeight="10.0" prefWidth="172.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-                          <Label layoutX="10.0" layoutY="83.0" text="Item Type" textAlignment="CENTER" GridPane.rowIndex="2" />
+                          <Label alignment="TOP_LEFT" layoutX="10.0" layoutY="83.0" text="Item Type" GridPane.rowIndex="4" />
+                        <Label fx:id="emptyProdNameFieldLBL" prefHeight="18.0" prefWidth="194.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label fx:id="emptyManufacturerFieldLBL" layoutX="208.0" layoutY="45.0" prefHeight="34.0" prefWidth="173.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField fx:id="txtFieldName" layoutX="157.0" layoutY="61.0" maxHeight="16.0" maxWidth="172.0" onKeyTyped="#prodNameTyped" prefHeight="16.0" prefWidth="172.0" GridPane.columnIndex="1" />
                        </children>
-                     <padding>
-                        <Insets bottom="20.0" left="20.0" right="20.0" />
-                     </padding>
                     </GridPane>
-                    <Button layoutX="302.0" layoutY="175.0" mnemonicParsing="false" onAction="#buttonAction" prefHeight="25.0" prefWidth="100.0" text="Add product">
+                    <Button layoutX="305.0" layoutY="175.0" mnemonicParsing="false" onAction="#buttonAction" prefHeight="26.0" prefWidth="100.0" text="Add product">
                        <cursor>
                           <Cursor fx:constant="HAND" />
                        </cursor>
 
-                          </Button>
+                                </Button>
                   <TableView fx:id="table" layoutX="14.0" layoutY="229.0" prefHeight="370.0" prefWidth="472.0">
                     <columns>
                       <TableColumn fx:id="prodIdColumn" prefWidth="75.0" text="Product ID" />
@@ -111,11 +121,16 @@
            <content>
               <AnchorPane>
                  <children>
-                    <ListView fx:id="listView" layoutX="18.0" layoutY="60.0" prefHeight="434.0" prefWidth="467.0" />
+                    <ListView fx:id="listView" layoutX="18.0" layoutY="60.0" onMouseClicked="#prodSelectedListview" prefHeight="434.0" prefWidth="467.0" />
                     <ComboBox fx:id="cmbQuantity" layoutX="130.0" layoutY="511.0" prefHeight="26.0" prefWidth="137.0" AnchorPane.rightAnchor="238.0" />
                     <Button layoutX="341.0" layoutY="511.0" mnemonicParsing="false" onAction="#recProd" prefHeight="26.0" prefWidth="143.0" text="Record Production" />
                   <Label layoutX="18.0" layoutY="34.0" text="Choose Product" />
                   <Label layoutX="16.0" layoutY="516.0" text="Choose Quantity" />
+                  <Label fx:id="prodNotSelectedLBL" layoutX="138.0" layoutY="14.0" prefHeight="18.0" prefWidth="258.0" style="-fx-text-fill: FF0000;" textFill="#f50a0a">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
                  </children>
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

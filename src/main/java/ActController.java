@@ -9,6 +9,7 @@ for: A production management system that adds new records to a database
 
 //import required packages
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,17 +21,24 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+
 
 /**
  * Represents the creation of a database. Many products can be inserted into the database
@@ -46,7 +54,6 @@ public class ActController {
   // Database credentials
   static final String USER = "";
   static final String PASS = "";
-
 
   @FXML
   private TextField txtFieldName;
@@ -82,6 +89,45 @@ public class ActController {
   private ListView<Widget> listView;
 
   @FXML
+  private Label nameLBL;
+
+  @FXML
+  private Label usernameLBL;
+
+  @FXML
+  private Label emailLBL;
+
+  @FXML
+  private Label passwordLBL;
+
+  @FXML
+  private Label test;
+
+  @FXML
+  private Label emptyProdNameFieldLBL;
+
+  @FXML
+  private Label emptyManufacturerFieldLBL;
+
+  @FXML
+  private Label prodNotSelectedLBL;
+
+  @FXML
+  void prodSelectedListview( MouseEvent event) {
+    prodNotSelectedLBL.setText("");
+  }
+
+  @FXML
+  void manufacturerTyped( KeyEvent event) {
+    emptyManufacturerFieldLBL.setText("");
+  }
+
+  @FXML
+  void prodNameTyped(KeyEvent event) {
+    emptyProdNameFieldLBL.setText("");
+  }
+
+  @FXML
   void buttonAction( ActionEvent event ) {
     addProduct();
   }
@@ -91,14 +137,17 @@ public class ActController {
     recordProductionBtn();
   }
 
+  @FXML
+  void logout(ActionEvent event) throws IOException {
+
+  }
+
+
   //Observable list
   ObservableList<Widget> productLine = FXCollections.observableArrayList();
   private Connection conn = null;
   private PreparedStatement pstmt = null;
   private int inc;
-
-
-
 
   /**
    * This method is called automatically when the controller loads. and sets a default value for the
@@ -106,13 +155,30 @@ public class ActController {
    */
   public void initialize( ) {
 
-    Employee employee = new Employee("Jaysson Balbuena", "abcd!");
-    System.out.println(employee);
+    ////Employee employee = new Employee("Jaysson Balbuena", "abcd!");
+    //System.out.println(employee);
 
     connectToDataBase();
     setupProductLineTable();
     loadProductList();
     loadProductionLog();
+
+    nameLBL.setText("Simple test");
+
+   /* try{
+      FXMLLoader loader = new FXMLLoader();
+      loader.setLocation(getClass().getResource("sample.fxml"));
+      Parent tableviewParent = loader.load();
+
+      Controller controller = loader.getController();
+      Employee emp = controller.loginScreen();
+
+      usernameLBL.setText(emp.userName);
+
+    }catch (Exception e){
+      e.printStackTrace();
+    }*/
+
 
 
 
@@ -172,23 +238,27 @@ public class ActController {
 
     itemTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
 
-    /*table.getItems().add(new Widget("iphone 12", "Apple", ItemType.AUDIO));
-    table.getItems().add(new Widget("iphone 13", "Apple", ItemType.AUDIO));*/
 
   }
 
   private void recordProductionBtn( ) {
 
     inc = 1;
-    int size = Integer.parseInt(cmbQuantity.getSelectionModel().getSelectedItem());
+    int quantity = Integer.parseInt(cmbQuantity.getSelectionModel().getSelectedItem());
 
     Product selectedItem = listView.getSelectionModel().getSelectedItem();
 
     ArrayList<ProductionRecord> productionRun = new ArrayList<>();
 
+    if (listView.getSelectionModel().getSelectedItem() == null){
+
+      prodNotSelectedLBL.setText("Please choose a product from the list");
+      return;
+    }
+
     if (cmbQuantity.getSelectionModel().getSelectedIndex() + 1 > 1) {
 
-      for (int i = 0; i < size; i++) {
+      for (int i = 0; i < quantity; i++) {
 
         productionRun.add(new ProductionRecord(selectedItem, inc++));
         txtAreaProdLog.appendText(productionRun.get(i).toString() + "\n");
@@ -312,6 +382,25 @@ public class ActController {
       //STEP 3: Execute a PreparedStatement query
       pstmt = conn.prepareStatement(sql);
 
+      //----------------------------------------------------------------------------------------------------
+      boolean validation = true;
+      emptyProdNameFieldLBL.setStyle("-fx-text-fill: #ff0000");
+      emptyManufacturerFieldLBL.setStyle("-fx-text-fill: red");
+
+      while (validation) {
+        if (txtFieldName.getText().isEmpty() && txtFieldManufacturer.getText().isEmpty()) {
+          emptyProdNameFieldLBL.setText("Enter a product");
+          emptyManufacturerFieldLBL.setText("Provide a manufacturer");
+          return;
+        } else if (txtFieldName.getText().isEmpty()) {
+          emptyProdNameFieldLBL.setText("Enter a product");
+          return;
+        } else if (txtFieldManufacturer.getText().isEmpty()) {
+          emptyManufacturerFieldLBL.setText("Provide a manufacturer");
+          return;
+        }
+        validation = false;
+      }
       ArrayList<String> productLine = new ArrayList<>();
       productLine.add(txtFieldName.getText());
       pstmt.setString(1, productLine.get(0));
@@ -322,8 +411,6 @@ public class ActController {
       productLine.add(txtFieldManufacturer.getText());
       pstmt.setString(3, productLine.get(2));
 
-      System.out.println("Product has been added to the database!");
-
       pstmt.executeUpdate();
       table.getItems().clear();
       listView.getItems().clear();
@@ -332,7 +419,7 @@ public class ActController {
     } catch (SQLException e) {
       e.printStackTrace();
     }
-
+//------------------------------------------------------------------------------------------
   }
 
   public void addEmployee(Employee emp){
@@ -352,6 +439,7 @@ public class ActController {
 
       pstmt.executeUpdate();
 
+      System.out.println("Employee " + emp.name + " has been successfully added to the database");
     }catch (SQLException e){
       e.printStackTrace();
     }
@@ -369,24 +457,39 @@ public class ActController {
 
       while (rs.next()) {
 
-        String employeeUsername = rs.getString(4);
-        String employeePassword = rs.getString(3);
+        String empName = rs.getString(2);
+        String empUsername = rs.getString(3);
+        String empEmail = rs.getString(4);
+        String empPassword = rs.getString(5);
 
-        System.out.println("Username: " + employeeUsername);
-        System.out.println("Password: " + employeePassword);
+        System.out.println("Username: " + empUsername);
+        System.out.println("Password: " + empPassword);
+        System.out.println("Name: " + empName);
+        System.out.println("Email: " + empEmail);
 
-
-
-        if(employeeUsername.equals(userName) && employeePassword.equals(password)){
+        Parent root;
+        if(empUsername.equals(userName) && empPassword.equals(password)){
           System.out.println("Account found");
           accountExist = true;
+
+          //NOT WORKING -------------------------------------------------------
+          nameLBL.setText(empName);
+          usernameLBL.setText(empUsername);
+          emailLBL.setText(empEmail);
+          passwordLBL.setText(empPassword);
+          //---------------------------------------------------------------------
+
+
+          System.out.println("USER-ACCOUNT-DETAILS\n" + empName + "\n" + empUsername + "\n"
+              + empEmail + "\n" + empPassword);
+
         }
       }
 
     } catch (Exception e) {
       e.printStackTrace();
     }
-
+    test.setText("Test");
     return accountExist;
   }
 
