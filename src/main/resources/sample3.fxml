@@ -60,12 +60,16 @@
         </rowConstraints>
          <children>
         <TextField fx:id="createName" maxWidth="211.0" onKeyReleased="#disableErrorMsgForName" prefHeight="26.0" prefWidth="211.0" promptText="Enter your full name" />
-            <Label fx:id="lblCreateName" prefHeight="18.0" prefWidth="265.0" style="-fx-text-fill: FF0000;" GridPane.rowIndex="1" />
+            <Label fx:id="lblCreateName" prefHeight="18.0" prefWidth="266.0" style="-fx-text-fill: FF0000;" GridPane.rowIndex="1" />
             <Label fx:id="lblCreatePassword" alignment="TOP_LEFT" prefHeight="66.0" prefWidth="265.0" style="-fx-text-fill: FF0000;" GridPane.rowIndex="3" />
-            <PasswordField fx:id="createPassword" maxWidth="211.0" prefWidth="211.0" promptText="Create your password" GridPane.rowIndex="2" />
+            <PasswordField fx:id="createPassword" maxWidth="211.0" onKeyTyped="#disableErrorMsgForPassword" prefWidth="211.0" promptText="Create your password" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <Hyperlink onAction="#backHyperlink" text="&lt;- Go Back to Sign in" />
-      <Label fx:id="acctCreatedLBL" alignment="TOP_LEFT" layoutX="71.0" layoutY="476.0" prefHeight="66.0" prefWidth="265.0" style="-fx-text-fill: #00796B;" />
+      <Hyperlink onAction="#backHyperlink" text="&lt;-Back to Login Page" />
+      <Label fx:id="acctCreatedLbl" alignment="TOP_LEFT" layoutX="86.0" layoutY="474.0" prefHeight="66.0" prefWidth="265.0" style="-fx-text-fill: #099700;">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
   </children>
 </AnchorPane>

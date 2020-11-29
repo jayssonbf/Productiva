@@ -1,9 +1,25 @@
+/**
+ * Forces all classes to implement the screen's specs.
+ * @author Jaysson Balbuena
+ */
 public interface ScreenSpec {
 
-  String getResolution( );
+  /**
+   * unimplemented method that gets the resolution of the screen.
+   * @return a String containing the screen's resolution.
+   */
+  String getResolution();
 
-  int getRefreshRate( );
+  /**
+   * unimplemented method that gets the refresh rate of the screen.
+   * @return an int containing the screen's refresh rate.
+   */
+  int getRefreshRate();
 
-  int getResponseTime( );
+  /**
+   * unimplemented method that gets the response time of the screen.
+   * @return an int containing the screen's response time.
+   */
+  int getResponseTime();
 
 }

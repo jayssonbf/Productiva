@@ -9,7 +9,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * Manipulates and controls the scene builder containers through individual fx:id's and methods.
+ * @author Jaysson Balbuena
+ */
 public class Controller {
+
 
   @FXML
   AnchorPane rootPane;
@@ -45,52 +50,91 @@ public class Controller {
   private Label errorMessage;
 
   @FXML
-  private Label acctCreatedLBL;
+  private Label acctCreatedLbl;
 
+  /**
+   *  allows user to return to the login page.
+   * @param event offers a series of ActionEvents such as "On mouse clicked" etc.
+   * @throws IOException is thrown if something goes wrong when reading the fxml file.
+   */
   @FXML
   void backHyperlink(ActionEvent event) throws IOException {
     AnchorPane pane = FXMLLoader.load(getClass().getResource("sample2.fxml"));
     rootPane.getChildren().setAll(pane);
   }
 
+  /**
+   * Once loginBtn is clicked, loginScreen method verifies user input and logs in if valid.
+   * @param event event offers a series of ActionEvents such as "On mouse clicked" etc.
+   * @throws IOException is thrown if something goes wrong when reading the fxml file.
+   */
   @FXML
-  void loginBtn( ActionEvent event ) throws IOException {
+  void loginBtn(ActionEvent event) throws IOException {
     loginScreen();
   }
+
+  /**
+   * erases the username error message shown when incorrect username is entered.
+   * @param event executes an action when the user type something into the TextField.
+   */
   @FXML
-  void usernameKeyReleased( KeyEvent event) {
-      lblUsername.setText("");
+  void usernameKeyReleased(KeyEvent event) {
+    lblUsername.setText("");
   }
+
+  /**
+   * erases the password error message shown when incorrect password is entered.
+   * @param event executes an action when the user type something into the TextField.
+   */
   @FXML
   void passwordKeyReleased(KeyEvent event) {
     lblPassword.setText("");
 
   }
+
+  /**
+   * disables error message shown when user tries to create an account with an improper name.
+   * @param event executes an action when the user type something into the TextField.
+   */
   @FXML
   void disableErrorMsgForName(KeyEvent event) {
     lblCreateName.setText("");
   }
 
+  /**
+   * disables name error message shown when user tries to create an account with an improper name.
+   * @param event executes an action when the user type something into the TextField.
+   */
   @FXML
   void disableErrorMsgForPassword(KeyEvent event) {
     lblCreatePassword.setText("");
   }
 
+  /**
+   * call registerUser() method where allows a user to register into the system.
+   * @param event executes an action when the user type something into the TextField.
+   * @throws IOException is thrown if something goes wrong when reading the fxml file.
+   */
   @FXML
   void createAcctButton(ActionEvent event) throws IOException {
-      registerUser();
+    registerUser();
   }
 
+  /**
+   * calls loadCreateAcctScreen() method which loads the create account screen.
+   * @param event executes an action when the user type something into the TextField.
+   */
   @FXML
   void createAccount(ActionEvent event) {
     loadCreateAcctScreen();
   }
 
   /**
-   * When this method is called, it checks for valid input
-   * @throws IOException
+   * When this method is called, it checks for valid input and it logs in if input is corrected.
+   *
+   * @throws IOException is thrown if something goes wrong when reading the fxml file.
    */
-  public void loginScreen( ) throws IOException {
+  public void loginScreen() throws IOException {
 
     boolean validation = true;
 
@@ -106,12 +150,11 @@ public class Controller {
         lblPassword.setText("Password must be filled out");
         return;
       }
-        validation = false;
+      validation = false;
     }
 
-    String username = userNameTxt.getText();
+    String username = userNameTxt.getText().toLowerCase();
     String password = passwordTxt.getText();
-
 
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(getClass().getResource("sample.fxml"));
@@ -121,61 +164,49 @@ public class Controller {
 
     boolean existingAcct = controller.loadEmployee(username, password);
 
-      if (existingAcct){
+    if (existingAcct) {
 
-        System.out.println("True");
-        System.out.println("You've been successfully logged in");
+      System.out.println("True");
+      System.out.println("You've been successfully logged in");
 
-        try {
-          TabPane pane = FXMLLoader.load(getClass().getResource("sample.fxml"));
-          rootPane.getChildren().setAll(pane);
+      try {
+        TabPane pane = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        rootPane.getChildren().setAll(pane);
 
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-
-      }
-      else{
-        errorMessage.setText("Incorrect username or password");
-        System.out.println("false");
+      } catch (Exception e) {
+        e.printStackTrace();
       }
 
-  }
+    } else {
+      errorMessage.setText("Incorrect username or password");
+      System.out.println("false");
+    }
 
-  private void loadCreateAcctScreen( ) {
+  } //ends loginScreen() method
+
+  /**
+   * Once the user click on create account, the create account window pops up.
+   */
+  private void loadCreateAcctScreen() {
     try {
       AnchorPane pane = FXMLLoader.load(getClass().getResource("sample3.fxml"));
       rootPane.getChildren().setAll(pane);
 
-      System.out.println("Creating account...");
     } catch (Exception e) {
       e.printStackTrace();
     }
 
-    /*boolean validation = true;
-
-    while (validation) {
-      if (createName.getText().isEmpty() && createPassword.getText().isEmpty()) {
-        lblCreateName.setText("Name is empty");
-        lblCreatePassword.setText("Password is empty");
-        return;
-      } else if (createName.getText().isEmpty()) {
-        lblCreateName.setText("username must be filled out");
-        return;
-      } else if (createPassword.getText().isEmpty()) {
-        lblCreatePassword.setText("Password must be filled out");
-        return;
-      }
-      validation = false;
-    }*/
-
-
   }
 
-  private void registerUser( ) throws IOException {
+  /**
+   * prompts user to enter valid input to create a new account.
+   *
+   * @throws IOException is thrown if something goes wrong when reading the fxml file.
+   */
+  private void registerUser() throws IOException {
 
     boolean validation = true;
-    Parent tableviewParent;
+    //Parent tableviewParent;
 
     while (validation) {
       if (createName.getText().isEmpty() && createPassword.getText().isEmpty()) {
@@ -189,51 +220,50 @@ public class Controller {
         lblCreatePassword.setText("Password must be filled out");
         return;
       }
-
       validation = false;
     }
 
     validation = true;
     String name = createName.getText();
     String password = createPassword.getText();
-    Employee emp  = new Employee(name, password);
+    Employee emp = new Employee(name, password);
 
-    while(validation){
-      if (emp.name.toString().matches("^[a-zA-Z]{3,}[ ][a-zA-Z]+$") &&
-          emp.password.matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[#?!@$%^&*-]).{3,}$")) {
-          System.out.println("Your account has been successfully created");
+    while (validation) {
+      if (emp.name.toString().matches("^[a-zA-Z]{3,}[ ][a-zA-Z]+$")
+          && emp.password.matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[#?!@$%^&*-]).{3,}$")) {
+        System.out.println("Your account has been successfully created");
 
-          validation = false;
+        validation = false;
 
-      }else if(!emp.name.toString().matches("^[a-zA-Z]{3,}.[ ][a-zA-Z]+$")){
+      } else if (!emp.name.toString().matches("^[a-zA-Z]{3,}.[ ][a-zA-Z]+$")) {
         lblCreateName.setText("Enter your full name [e.g. Pedro Martinez]");
 
         return;
-      }
-      else if(!emp.name.toString().matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[#?!@$%^&*-]).{3,}$")){
-        lblCreatePassword.setText("Password must contain an uppercase\nand a lowercase letter, and "
-            + "a special\ncharacter [e.g. Oop$]");
+      } else if (!emp.name.toString()
+          .matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[#?!@$%^&*-]).{3,}$")) {
+        lblCreatePassword
+            .setText("Password must contain an uppercase,\nand a lowercase letter, and "
+                + "a special\ncharacter [e.g. Oop$]");
         return;
-     }
+      }
 
-    }//end whileLoop
+    } //end whileLoop
 
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(getClass().getResource("sample.fxml"));
-    tableviewParent = loader.load();
+    Parent tableviewParent = loader.load();
 
     ActController controller = loader.getController();
     controller.addEmployee(emp);
 
-    acctCreatedLBL.setText(
-        "Your account has been successfully created\n"
+    acctCreatedLbl.setText("Your account has been successfully created\n"
         + "Username: " + emp.userName + "\n"
-            + "To login, go back to the main page");
+        + "To login, go back to the main page");
 
     lblCreatePassword.setText("");
 
-    }//end registerUser method
+  } //end registerUser method
 
-  }//end Controller class
+} //end Controller class
 
 

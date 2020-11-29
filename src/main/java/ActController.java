@@ -9,7 +9,6 @@ for: A production management system that adds new records to a database
 
 //import required packages
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -21,15 +20,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-
-import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -37,12 +35,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-
+import javafx.stage.Stage;
 
 /**
- * Represents the creation of a database. Many products can be inserted into the database
- *
+ * Manipulates and controls the scene builder containers through individual fx:id's and methods.
  * @author Jaysson Balbuena
  */
 public class ActController {
@@ -89,59 +85,84 @@ public class ActController {
   private ListView<Widget> listView;
 
   @FXML
-  private Label nameLBL;
+  private Label nameLbl;
 
   @FXML
-  private Label usernameLBL;
+  private Label usernameLbl;
 
   @FXML
-  private Label emailLBL;
+  private Label passwordLbl;
 
   @FXML
-  private Label passwordLBL;
+  private Label emailLbl;
 
   @FXML
-  private Label test;
+  private Label emptyProdNameFieldLbl;
 
   @FXML
-  private Label emptyProdNameFieldLBL;
+  private Label emptyManufacturerFieldLbl;
 
   @FXML
-  private Label emptyManufacturerFieldLBL;
+  private Label prodNotSelectedLbl;
 
+  /**
+   * disables error message shown when user does not select a product from the listView.
+   * @param event contains a number of events that is utilized when an action is executed.
+   */
   @FXML
-  private Label prodNotSelectedLBL;
-
-  @FXML
-  void prodSelectedListview( MouseEvent event) {
-    prodNotSelectedLBL.setText("");
+  void prodSelectedListview(MouseEvent event) {
+    prodNotSelectedLbl.setText("");
   }
 
+  /**
+   * disables error message shown when user does not type anything in the manufacturer field.
+   * @param event contains a number of events that is utilized when an action is executed.
+   */
   @FXML
-  void manufacturerTyped( KeyEvent event) {
-    emptyManufacturerFieldLBL.setText("");
+  void manufacturerTyped(KeyEvent event) {
+    emptyManufacturerFieldLbl.setText("");
   }
 
+  /**
+   * disables error message shown when user does not type anything in the product name's field.
+   * @param event contains a number of events that is utilized when an action is executed.
+   */
   @FXML
   void prodNameTyped(KeyEvent event) {
-    emptyProdNameFieldLBL.setText("");
+    emptyProdNameFieldLbl.setText("");
   }
 
+  /**
+   * calls addProduct() method where users can add products into the system.
+   * @param event contains a number of events that is utilized when an action is executed.
+   */
   @FXML
-  void buttonAction( ActionEvent event ) {
+  void buttonAction(ActionEvent event) {
     addProduct();
   }
 
+  /**
+   * calls recordProductionBtn() method which records products to the production log tab
+   * @param event contains a number of events that is utilized when an action is executed.
+   */
   @FXML
-  void recProd( ActionEvent event ) {
+  void recProd(ActionEvent event) {
     recordProductionBtn();
   }
 
+  /**
+   * allows users to log out from the system.
+   * @param event contains a number of events that is utilized when an action is executed.
+   * @throws IOException is thrown
+   */
   @FXML
   void logout(ActionEvent event) throws IOException {
-
+    Stage stageTest = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    Parent root = FXMLLoader.load(getClass().getResource("sample2.fxml"));
+    Scene scene = new Scene(root, 500, 650);
+    stageTest.setScene(scene);
+    scene.getStylesheets().add("stylish.css");
   }
-
 
   //Observable list
   ObservableList<Widget> productLine = FXCollections.observableArrayList();
@@ -150,71 +171,17 @@ public class ActController {
   private int inc;
 
   /**
-   * This method is called automatically when the controller loads. and sets a default value for the
-   * combobox and choicebox
+   * This method is called automatically when the controller loads, and sets a default value for the
+   * combobox and choicebox.
    */
-  public void initialize( ) {
-
-    ////Employee employee = new Employee("Jaysson Balbuena", "abcd!");
-    //System.out.println(employee);
+  public void initialize() {
 
     connectToDataBase();
     setupProductLineTable();
     loadProductList();
     loadProductionLog();
 
-    nameLBL.setText("Simple test");
-
-   /* try{
-      FXMLLoader loader = new FXMLLoader();
-      loader.setLocation(getClass().getResource("sample.fxml"));
-      Parent tableviewParent = loader.load();
-
-      Controller controller = loader.getController();
-      Employee emp = controller.loginScreen();
-
-      usernameLBL.setText(emp.userName);
-
-    }catch (Exception e){
-      e.printStackTrace();
-    }*/
-
-
-
-
-   /* AudioPlayer newAudioProduct = new AudioPlayer("DP-X1A", "Onkyo",
-        "DSD/FLAC/ALAC/WAV/AIFF/MQA/Ogg-Vorbis/MP3/AAC", "M3U/PLS/WPL");
-
-    Screen newScreen = new Screen("720x480", 40, 22);
-
-    MoviePlayer newMovieProduct = new MoviePlayer("DBPOWER MK101", "OracleProduction", newScreen,
-        MonitorType.LCD);
-
-    ArrayList<MultimediaControl> productList = new ArrayList<MultimediaControl>();
-    productList.add(newAudioProduct);
-    productList.add(newMovieProduct);
-    for (MultimediaControl p : productList) {
-      System.out.println(p);
-      p.play();
-      p.stop();
-      p.next();
-      p.previous();
-    }
-
-    AudioPlayer newProduct = new AudioPlayer("DP-X1A", "Onkyo",
-        "DSD/FLAC/ALAC/WAV/AIFF/MQA/Ogg-Vorbis/MP3/AAC", "M3U/PLS/WPL");
-    System.out.println(newProduct);
-    newProduct.play();
-    newProduct.stop();
-    newProduct.next();
-    newProduct.previous();
-
-    ArrayList<Widget> productLine = new ArrayList<>();
-    productLine.add(new Widget("iPod", "Apple", ItemType.AUDIO));
-    productLine.add(new Widget("Zune", "Microsoft", ItemType.AUDIO_MOBILE));
-    for (Widget prod : productLine) {
-      System.out.println(prod);
-    }*/
+    displayEmployeeDetails();
 
     //for each loop that produce the item types
     for (ItemType it : ItemType.values()) {
@@ -229,7 +196,34 @@ public class ActController {
 
   }
 
-  private void setupProductLineTable( ) {
+  /**
+   * this method is utilized to display all the production records into the production log
+   * once the program starts.
+   */
+  private void loadProductionLog() {
+    try {
+      //SLQ select statement
+      String sql = "SELECT * FROM PRODUCTIONRECORD";
+      pstmt = conn.prepareStatement(sql);
+      ResultSet rs = pstmt.executeQuery();
+
+      while (rs.next()) {
+
+        ProductionRecord productionRecord = new ProductionRecord(rs.getInt(1), rs.getString(2),
+            rs.getString(3), rs.getTimestamp(4));
+
+        txtAreaProdLog.appendText(productionRecord.toString() + "\n");
+      }
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * this method is called and generates cell values for the TableView.
+   */
+  private void setupProductLineTable() {
 
     //Table columns associated with the cell value factory
     prodNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -241,40 +235,56 @@ public class ActController {
 
   }
 
-  private void recordProductionBtn( ) {
+  /**
+   * This method is called once users clicked on RecordProduction.
+   * it records products into the Production Log tab.
+   */
+  private void recordProductionBtn() {
 
     inc = 1;
+
     int quantity = Integer.parseInt(cmbQuantity.getSelectionModel().getSelectedItem());
 
     Product selectedItem = listView.getSelectionModel().getSelectedItem();
 
     ArrayList<ProductionRecord> productionRun = new ArrayList<>();
 
-    if (listView.getSelectionModel().getSelectedItem() == null){
+    boolean itemSelected = listView.getSelectionModel().getSelectedItem() == null;
+    String existedItem;
+    if (itemSelected) {
 
-      prodNotSelectedLBL.setText("Please choose a product from the list");
+      prodNotSelectedLbl.setText("Please choose a product from the list");
       return;
-    }
-
-    if (cmbQuantity.getSelectionModel().getSelectedIndex() + 1 > 1) {
-
-      for (int i = 0; i < quantity; i++) {
-
-        productionRun.add(new ProductionRecord(selectedItem, inc++));
-        txtAreaProdLog.appendText(productionRun.get(i).toString() + "\n");
-
-      }
     } else {
-      productionRun.add(new ProductionRecord(selectedItem, inc++));
-      txtAreaProdLog.appendText(productionRun.get(0).toString() + "\n");
+      existedItem = productSearch(selectedItem);
+
+      if (!existedItem.equals("")) {
+        int serial = Integer.parseInt(existedItem.replaceAll("[^\\d.]", ""));
+        serial++;
+        for (int i = 0; i < quantity; i++) {
+          productionRun.add(new ProductionRecord(selectedItem, serial++));
+        }
+      } else {
+        for (int i = 0; i < quantity; i++) {
+          productionRun.add(new ProductionRecord(selectedItem, inc++));
+        }
+      }
     }
+
     addProductionDB(productionRun);
     txtAreaProdLog.clear();
-   loadProductionLog();
-   // showProduction();
+    loadProductionLog();
+
   }
 
-  private void loadProductionLog( ) {
+  /**
+   * search for exiting products to avoid duplicate serial numbers.
+   * @param searchItem contains a product to be searched in the database.
+   * @return an empty String if product was not found, otherwise, return an existing serial number.
+   */
+  private String productSearch(Product searchItem) {
+
+    String result = "";
     try {
       //SLQ select statement
       String sql = "SELECT * FROM PRODUCTIONRECORD";
@@ -283,19 +293,22 @@ public class ActController {
 
       while (rs.next()) {
 
-        ProductionRecord productionRecord = new ProductionRecord(rs.getInt(1), rs.getInt(2),
-            rs.getString(3), rs.getTimestamp(4));
-
-        txtAreaProdLog.appendText(productionRecord.toString() + "\n");
+        if (rs.getString(2).equals(searchItem.name)) {
+          result = rs.getString(3);
+        }
       }
 
-
     } catch (Exception e) {
-        e.printStackTrace();
+      e.printStackTrace();
     }
+    return result;
   }
 
-  private void addProductionDB( ArrayList<ProductionRecord> productionRun ) {
+  /**
+   * inserts production record into the data base.
+   * @param productionRun an ArrayList that contains a list of production records.
+   */
+  private void addProductionDB(ArrayList<ProductionRecord> productionRun) {
 
     for (int i = 0; i < productionRun.size(); i++) {
 
@@ -304,7 +317,7 @@ public class ActController {
             + " VALUES ( ?, ?, ? )";
         pstmt = conn.prepareStatement(sql);
 
-        pstmt.setInt(1, productionRun.get(i).productID);
+        pstmt.setString(1, productionRun.get(i).productID);
         pstmt.setString(2, productionRun.get(i).serialNumber);
         pstmt.setTimestamp(3, productionRun.get(i).dateProduced);
 
@@ -318,7 +331,10 @@ public class ActController {
     }
   }
 
-  private void loadProductList( ) {
+  /**
+   * selects product list from the database and displays it into the table and listView.
+   */
+  private void loadProductList() {
 
     ItemType itemType;
 
@@ -341,10 +357,6 @@ public class ActController {
         table.setItems(productLine);
         listView.setItems(productLine);
 
-        //Display value to the console
-          /*System.out.print(result.getString(2) + " ");
-          System.out.print(result.getString(3) + " ");
-          System.out.println(result.getString(4));*/
       }
       pstmt.close();
       result.close();
@@ -354,7 +366,10 @@ public class ActController {
     }
   }
 
-  private void connectToDataBase( ) {
+  /**
+   * this method connects to the data base.
+   */
+  private void connectToDataBase() {
 
     try {
       // STEP 1: Register JDBC driver
@@ -369,34 +384,32 @@ public class ActController {
       System.out.println("Error: unable to load driver class!");
     }
   }
+
   /**
    * This method will use the text entered in the text field of the. interface for the prepared
    * statement to insert a product in the database table
    */
-  public void addProduct( ) {
+  public void addProduct() {
 
-    try {//SQL insert statement
+    try { //SQL insert statement
       String sql = " INSERT INTO PRODUCT(NAME, TYPE, MANUFACTURER)"
           + " VALUES ( ?, ?, ? )";
 
       //STEP 3: Execute a PreparedStatement query
       pstmt = conn.prepareStatement(sql);
 
-      //----------------------------------------------------------------------------------------------------
       boolean validation = true;
-      emptyProdNameFieldLBL.setStyle("-fx-text-fill: #ff0000");
-      emptyManufacturerFieldLBL.setStyle("-fx-text-fill: red");
 
       while (validation) {
         if (txtFieldName.getText().isEmpty() && txtFieldManufacturer.getText().isEmpty()) {
-          emptyProdNameFieldLBL.setText("Enter a product");
-          emptyManufacturerFieldLBL.setText("Provide a manufacturer");
+          emptyProdNameFieldLbl.setText("Enter a product");
+          emptyManufacturerFieldLbl.setText("Provide a manufacturer");
           return;
         } else if (txtFieldName.getText().isEmpty()) {
-          emptyProdNameFieldLBL.setText("Enter a product");
+          emptyProdNameFieldLbl.setText("Enter a product");
           return;
         } else if (txtFieldManufacturer.getText().isEmpty()) {
-          emptyManufacturerFieldLBL.setText("Provide a manufacturer");
+          emptyManufacturerFieldLbl.setText("Provide a manufacturer");
           return;
         }
         validation = false;
@@ -419,13 +432,16 @@ public class ActController {
     } catch (SQLException e) {
       e.printStackTrace();
     }
-//------------------------------------------------------------------------------------------
   }
 
-  public void addEmployee(Employee emp){
+  /**
+   * receives an employee object and adds it to the employee database.
+   * @param emp contains employee's details.
+   */
+  public void addEmployee(Employee emp) {
     System.out.println("INSIDE addEmployee: " + emp);
 
-    try{
+    try {
       String sql = " INSERT INTO EMPLOYEE(NAME, USERNAME, EMAIL, PASSWORD)"
           + " VALUES ( ?, ?, ?, ? )";
 
@@ -439,13 +455,18 @@ public class ActController {
 
       pstmt.executeUpdate();
 
-      System.out.println("Employee " + emp.name + " has been successfully added to the database");
-    }catch (SQLException e){
+    } catch (SQLException e) {
       e.printStackTrace();
     }
   }
 
-  public boolean loadEmployee(String userName, String password){
+  /**
+   * receives an employee's username and password and verifies if the employee's account exist.
+   * @param userName this employee's username.
+   * @param password this employee's password.
+   * @return true if the employee's account exist, otherwise, it returns false.
+   */
+  public boolean loadEmployee(String userName, String password) {
 
     boolean accountExist = false;
 
@@ -462,26 +483,15 @@ public class ActController {
         String empEmail = rs.getString(4);
         String empPassword = rs.getString(5);
 
-        System.out.println("Username: " + empUsername);
-        System.out.println("Password: " + empPassword);
-        System.out.println("Name: " + empName);
-        System.out.println("Email: " + empEmail);
-
-        Parent root;
-        if(empUsername.equals(userName) && empPassword.equals(password)){
-          System.out.println("Account found");
+        if (empUsername.equals(userName) && empPassword.equals(password)) {
           accountExist = true;
 
           //NOT WORKING -------------------------------------------------------
-          nameLBL.setText(empName);
-          usernameLBL.setText(empUsername);
-          emailLBL.setText(empEmail);
-          passwordLBL.setText(empPassword);
+          nameLbl.setText(empName);
+          usernameLbl.setText(empUsername);
+          emailLbl.setText(empEmail);
+          passwordLbl.setText(empPassword);
           //---------------------------------------------------------------------
-
-
-          System.out.println("USER-ACCOUNT-DETAILS\n" + empName + "\n" + empUsername + "\n"
-              + empEmail + "\n" + empPassword);
 
         }
       }
@@ -489,8 +499,33 @@ public class ActController {
     } catch (Exception e) {
       e.printStackTrace();
     }
-    test.setText("Test");
+
     return accountExist;
+  }
+
+  /**
+   * this method is used to display the employee details.
+   */
+  public void displayEmployeeDetails() {
+
+    FXMLLoader loader = new FXMLLoader();
+    loader.setLocation(getClass().getResource("sample2.fxml"));
+    try {
+      Parent root = loader.load();
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    Controller controller = loader.getController();
+
+    /*System.out.println("USER NAME: " + controller.empUsername);
+    System.out.println("USER PASSWORD: " + controller.empPassword);*/
+
+    nameLbl.setText("Jaysson Balbuena");
+    usernameLbl.setText("Jay");
+    emailLbl.setText("Jay@oracle");
+    passwordLbl.setText("JayJay");
   }
 
 }

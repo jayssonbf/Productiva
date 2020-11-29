@@ -1,12 +1,29 @@
+/**
+ * Forces all classes to implement the product's multimedia control.
+ * used for controlling all multimedia peripherals.
+ * @author Jaysson Balbuena
+ */
 public interface MultimediaControl {
 
-  void play( );
+  /**
+   * play() method declaration without implementation.
+   */
+  void play();
 
-  void stop( );
+  /**
+   * stop() method declaration without implementation.
+   */
+  void stop();
 
-  void previous( );
+  /**
+   * previous() method declaration without implementation.
+   */
+  void previous();
 
-  void next( );
+  /**
+   * next() method declaration without implementation.
+   */
+  void next();
 
 }
 

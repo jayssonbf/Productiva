@@ -52,10 +52,10 @@
                         <Label text="Username:" GridPane.rowIndex="1" />
                         <Label text="Password:" GridPane.rowIndex="2" />
                         <Label text="Email:" GridPane.rowIndex="3" />
-                        <Label fx:id="nameLBL" prefHeight="22.0" prefWidth="240.0" GridPane.columnIndex="1" />
-                        <Label fx:id="usernameLBL" prefHeight="21.0" prefWidth="238.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Label fx:id="passwordLBL" prefHeight="22.0" prefWidth="241.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Label fx:id="emailLBL" prefHeight="18.0" prefWidth="240.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label fx:id="nameLbl" prefHeight="22.0" prefWidth="240.0" GridPane.columnIndex="1" />
+                        <Label fx:id="usernameLbl" prefHeight="21.0" prefWidth="238.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label fx:id="passwordLbl" prefHeight="22.0" prefWidth="241.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label fx:id="emailLbl" prefHeight="18.0" prefWidth="240.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
                   <Label fx:id="test" alignment="CENTER" layoutX="143.0" layoutY="371.0" prefHeight="35.0" prefWidth="215.0">
@@ -91,18 +91,18 @@
                           <ChoiceBox fx:id="cbItems" prefHeight="10.0" prefWidth="172.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
                           <Label alignment="TOP_LEFT" layoutX="10.0" layoutY="83.0" text="Item Type" GridPane.rowIndex="4" />
-                        <Label fx:id="emptyProdNameFieldLBL" prefHeight="18.0" prefWidth="194.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Label fx:id="emptyManufacturerFieldLBL" layoutX="208.0" layoutY="45.0" prefHeight="34.0" prefWidth="173.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label fx:id="emptyProdNameFieldLbl" prefHeight="18.0" prefWidth="194.0" style="-fx-text-fill: #ff0000;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label fx:id="emptyManufacturerFieldLbl" layoutX="208.0" layoutY="45.0" prefHeight="34.0" prefWidth="173.0" style="-fx-text-fill: #ff0000;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <TextField fx:id="txtFieldName" layoutX="157.0" layoutY="61.0" maxHeight="16.0" maxWidth="172.0" onKeyTyped="#prodNameTyped" prefHeight="16.0" prefWidth="172.0" GridPane.columnIndex="1" />
                        </children>
                     </GridPane>
-                    <Button layoutX="305.0" layoutY="175.0" mnemonicParsing="false" onAction="#buttonAction" prefHeight="26.0" prefWidth="100.0" text="Add product">
+                    <Button fx:id="addProductBtn" layoutX="305.0" layoutY="175.0" mnemonicParsing="false" onAction="#buttonAction" prefHeight="26.0" prefWidth="100.0" text="Add product">
                        <cursor>
                           <Cursor fx:constant="HAND" />
                        </cursor>
 
                                 </Button>
-                  <TableView fx:id="table" layoutX="14.0" layoutY="229.0" prefHeight="370.0" prefWidth="472.0">
+                  <TableView fx:id="table" layoutX="14.0" layoutY="229.0" prefHeight="376.0" prefWidth="472.0">
                     <columns>
                       <TableColumn fx:id="prodIdColumn" prefWidth="75.0" text="Product ID" />
                       <TableColumn fx:id="prodNameColumn" prefWidth="113.60004425048828" text="Product Name" />
@@ -126,7 +126,7 @@
                     <Button layoutX="341.0" layoutY="511.0" mnemonicParsing="false" onAction="#recProd" prefHeight="26.0" prefWidth="143.0" text="Record Production" />
                   <Label layoutX="18.0" layoutY="34.0" text="Choose Product" />
                   <Label layoutX="16.0" layoutY="516.0" text="Choose Quantity" />
-                  <Label fx:id="prodNotSelectedLBL" layoutX="138.0" layoutY="14.0" prefHeight="18.0" prefWidth="258.0" style="-fx-text-fill: FF0000;" textFill="#f50a0a">
+                  <Label fx:id="prodNotSelectedLbl" layoutX="138.0" layoutY="14.0" prefHeight="18.0" prefWidth="258.0" style="-fx-text-fill: FF0000;" textFill="#f50a0a">
                      <font>
                         <Font size="14.0" />
                      </font>

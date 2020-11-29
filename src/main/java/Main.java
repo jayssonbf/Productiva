@@ -1,12 +1,12 @@
-/*---------------------------------------------------------------------------
-file name: Main.java
-by: Jaysson Balbuena
-organization: COP 3003, fall 2020
+/*-------------------------------------------------------------------------------------
+File name: Main.java
+By: Jaysson Balbuena
+Organization: COP 3003, fall 2020
 Instructor: Scott Vanselow
-Date:  09/19/2020
-for: A production management system that allows users to control all aspects
-     of production processing.
------------------------------------------------------------------------------*/
+Date:  12/02/2020
+Description: Productiva, a production management system, that allows users to control
+             all aspects of production processing.
+---------------------------------------------------------------------------------------*/
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -38,7 +38,6 @@ public class Main extends Application {
   public void start(Stage primaryStage) throws Exception {
 
     Parent root = FXMLLoader.load(getClass().getResource("sample2.fxml"));
-
     Scene scene = new Scene(root, 500, 650);
     scene.getStylesheets().add("stylish.css");
 
