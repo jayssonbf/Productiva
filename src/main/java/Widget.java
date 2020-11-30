@@ -13,8 +13,9 @@ public class Widget extends Product {
    * @param manufacturer A String containing the product's manufacturer.
    * @param item an item type containing the product's name.
    */
-  public Widget(String name, String manufacturer, ItemType item) {
+  public Widget(int id, String name, String manufacturer, ItemType item) {
     super(name, manufacturer, item);
+    this.id = id;
     this.name = name;
     this.manufacturer = manufacturer;
     type = item;

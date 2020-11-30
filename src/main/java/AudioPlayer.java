@@ -5,8 +5,8 @@
  */
 public class AudioPlayer extends Product implements MultimediaControl {
 
-  private String supportedAudioFormats;
-  private String supportedPlaylistFormats;
+  private final String supportedAudioFormats;
+  private final String supportedPlaylistFormats;
 
   /**
    * Class constructor creates a audio player object by passing a product's name, manufacturer,

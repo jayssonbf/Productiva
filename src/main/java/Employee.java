@@ -5,9 +5,9 @@
  */
 public class Employee {
 
-  StringBuilder name;
+  final StringBuilder name;
   String userName;
-  String password;
+  final String password;
   String email;
 
   /**

@@ -6,8 +6,8 @@
  */
 public class MoviePlayer extends Product implements MultimediaControl {
 
-  Screen screen;
-  MonitorType monitorType;
+  final Screen screen;
+  final MonitorType monitorType;
 
   /**
    * Class constructor creates a movie player object by passing name, manufacturer, screen, and

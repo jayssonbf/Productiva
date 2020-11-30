@@ -7,10 +7,10 @@ import java.sql.Timestamp;
  */
 public class ProductionRecord {
 
-  int productionNumber;
-  String productID;
-  String serialNumber;
-  Timestamp dateProduced;
+  final int productionNumber;
+  final String productID;
+  final String serialNumber;
+  final Timestamp dateProduced;
 
   /**
    * class constructor allows a derived class creates a product object by passing a product's name.

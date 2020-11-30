@@ -4,9 +4,9 @@
  */
 public class Screen implements ScreenSpec {
 
-  String resolution;
-  int refreshRate;
-  int responseTime;
+  final String resolution;
+  final int refreshRate;
+  final int responseTime;
 
   /**
    * class constructor that creates a screen object by passing a resolution, a refresh rate, and a
@@ -44,7 +44,7 @@ public class Screen implements ScreenSpec {
   /**
    * implementation of the getResponseTime method from the ScreenSpec interface's class that gets
    * the response time of this screen.
-   * @return
+   * @return this screen's response time.
    */
   @Override
   public int getResponseTime() {

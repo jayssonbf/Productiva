@@ -20,135 +20,152 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<TabPane prefHeight="650.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ActController">
-     <tabs>
-      <Tab fx:id="employeeTab" text="Employee">
-         <content>
-            <AnchorPane>
-               <children>
-                  <Label alignment="CENTER" layoutX="143.0" layoutY="62.0" text="Employee Details">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
-                  </Label>
-                  <Hyperlink layoutX="416.0" layoutY="20.0" onAction="#logout" text="Log out">
-                     <font>
-                        <Font size="13.0" />
-                     </font>
-                  </Hyperlink>
-                  <GridPane layoutX="53.0" layoutY="130.0" maxWidth="350.0" prefWidth="350.0">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="169.4000244140625" minWidth="10.0" prefWidth="108.60003662109375" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="241.39996337890625" minWidth="10.0" prefWidth="241.39996337890625" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <Label text="Name:" />
-                        <Label text="Username:" GridPane.rowIndex="1" />
-                        <Label text="Password:" GridPane.rowIndex="2" />
-                        <Label text="Email:" GridPane.rowIndex="3" />
-                        <Label fx:id="nameLbl" prefHeight="22.0" prefWidth="240.0" GridPane.columnIndex="1" />
-                        <Label fx:id="usernameLbl" prefHeight="21.0" prefWidth="238.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Label fx:id="passwordLbl" prefHeight="22.0" prefWidth="241.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Label fx:id="emailLbl" prefHeight="18.0" prefWidth="240.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                     </children>
-                  </GridPane>
-                  <Label fx:id="test" alignment="CENTER" layoutX="143.0" layoutY="371.0" prefHeight="35.0" prefWidth="215.0">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
-         </content>
-      </Tab>
-        <Tab fx:id="prodLineTab" text="Product Line">
-           <content>
-              <AnchorPane prefHeight="304.0" prefWidth="416.0">
-                 <children>
-                    <GridPane alignment="TOP_CENTER" layoutX="89.0" layoutY="27.0" prefHeight="126.0" prefWidth="322.0">
-                      <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.79998779296875" minWidth="10.0" prefWidth="183.9999755859375" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="270.79998779296875" minWidth="10.0" prefWidth="211.2000244140625" />
-                      </columnConstraints>
-                      <rowConstraints>
-                        <RowConstraints maxHeight="35.000006103515624" minHeight="10.0" prefHeight="29.600006103515625" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="24.000003051757815" minHeight="10.0" prefHeight="18.399993896484375" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="34.799996948242196" minHeight="10.0" prefHeight="29.599999999999994" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="30.199987792968756" minHeight="10.0" prefHeight="17.599999999999994" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="46.79999389648438" minHeight="10.0" prefHeight="30.200000000000003" vgrow="SOMETIMES" />
-                      </rowConstraints>
-                       <children>
-                          <Label text="Product Name" textAlignment="CENTER" />
-                          <Label layoutX="10.0" layoutY="26.0" textAlignment="CENTER" GridPane.rowIndex="2" />
-                          <TextField fx:id="txtFieldManufacturer" layoutX="140.0" layoutY="22.0" maxHeight="16.0" maxWidth="172.0" onKeyTyped="#manufacturerTyped" prefHeight="16.0" prefWidth="172.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                          <Label layoutX="10.0" layoutY="127.0" text="Manufacturer" textAlignment="CENTER" GridPane.rowIndex="2" />
-                          <ChoiceBox fx:id="cbItems" prefHeight="10.0" prefWidth="172.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+<TabPane prefHeight="650.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1"
+  xmlns:fx="http://javafx.com/fxml/1" fx:controller="ActController">
+  <Tab fx:id="employeeTab" text="Employee">
+    <AnchorPane>
+      <Label alignment="CENTER" layoutX="143.0" layoutY="62.0" text="Employee Details">
+        <font>
+          <Font name="System Bold" size="24.0"/>
+        </font>
+      </Label>
+      <Hyperlink layoutX="416.0" layoutY="20.0" onAction="#logout" text="Log out">
+        <font>
+          <Font size="13.0"/>
+        </font>
+      </Hyperlink>
+      <GridPane layoutX="53.0" layoutY="130.0" maxWidth="350.0" prefWidth="350.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="169.4000244140625" minWidth="10.0"
+            prefWidth="108.60003662109375"/>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="241.39996337890625" minWidth="10.0"
+            prefWidth="241.39996337890625"/>
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        </rowConstraints>
+        <Label text="Name:"/>
+        <Label text="Username:" GridPane.rowIndex="1"/>
+        <Label text="Email:" GridPane.rowIndex="2"/>
+        <Label fx:id="nameLbl" prefHeight="22.0" prefWidth="240.0" GridPane.columnIndex="1"/>
+        <Label fx:id="usernameLbl" prefHeight="21.0" prefWidth="238.0"
+          GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <Label fx:id="emailLbl" prefHeight="18.0" prefWidth="240.0" GridPane.columnIndex="1"
+          GridPane.rowIndex="2"/>
+      </GridPane>
+      <Label fx:id="test" alignment="CENTER" layoutX="143.0" layoutY="371.0" prefHeight="35.0"
+        prefWidth="215.0">
+        <font>
+          <Font name="System Bold" size="24.0"/>
+        </font>
+      </Label>
+    </AnchorPane>
+  </Tab>
+  <Tab fx:id="prodLineTab" text="Product Line">
+    <AnchorPane prefHeight="304.0" prefWidth="416.0">
+      <padding>
+        <Insets right="20.0" top="20.0"/>
+      </padding>
+      <GridPane alignment="TOP_CENTER" layoutX="89.0" layoutY="27.0" prefHeight="126.0"
+        prefWidth="322.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.79998779296875" minWidth="10.0"
+            prefWidth="183.9999755859375"/>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="270.79998779296875" minWidth="10.0"
+            prefWidth="211.2000244140625"/>
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="35.000006103515624" minHeight="10.0"
+            prefHeight="29.600006103515625" vgrow="SOMETIMES"/>
+          <RowConstraints maxHeight="24.000003051757815" minHeight="10.0"
+            prefHeight="18.399993896484375" vgrow="SOMETIMES"/>
+          <RowConstraints maxHeight="34.799996948242196" minHeight="10.0"
+            prefHeight="29.599999999999994" vgrow="SOMETIMES"/>
+          <RowConstraints maxHeight="30.199987792968756" minHeight="10.0"
+            prefHeight="17.599999999999994" vgrow="SOMETIMES"/>
+          <RowConstraints maxHeight="46.79999389648438" minHeight="10.0"
+            prefHeight="30.200000000000003" vgrow="SOMETIMES"/>
+        </rowConstraints>
+        <Label text="Product Name" textAlignment="CENTER"/>
+        <Label layoutX="10.0" layoutY="26.0" textAlignment="CENTER" GridPane.rowIndex="2"/>
+        <TextField fx:id="txtFieldManufacturer" layoutX="140.0" layoutY="22.0"
+          maxHeight="16.0" maxWidth="172.0" onKeyTyped="#manufacturerTyped" prefHeight="16.0"
+          prefWidth="172.0" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <Label layoutX="10.0" layoutY="127.0" text="Manufacturer" textAlignment="CENTER"
+          GridPane.rowIndex="2"/>
+        <ChoiceBox fx:id="cbItems" prefHeight="10.0" prefWidth="172.0"
+          GridPane.columnIndex="1" GridPane.rowIndex="4"/>
 
-                          <Label alignment="TOP_LEFT" layoutX="10.0" layoutY="83.0" text="Item Type" GridPane.rowIndex="4" />
-                        <Label fx:id="emptyProdNameFieldLbl" prefHeight="18.0" prefWidth="194.0" style="-fx-text-fill: #ff0000;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Label fx:id="emptyManufacturerFieldLbl" layoutX="208.0" layoutY="45.0" prefHeight="34.0" prefWidth="173.0" style="-fx-text-fill: #ff0000;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <TextField fx:id="txtFieldName" layoutX="157.0" layoutY="61.0" maxHeight="16.0" maxWidth="172.0" onKeyTyped="#prodNameTyped" prefHeight="16.0" prefWidth="172.0" GridPane.columnIndex="1" />
-                       </children>
-                    </GridPane>
-                    <Button fx:id="addProductBtn" layoutX="305.0" layoutY="175.0" mnemonicParsing="false" onAction="#buttonAction" prefHeight="26.0" prefWidth="100.0" text="Add product">
-                       <cursor>
-                          <Cursor fx:constant="HAND" />
-                       </cursor>
+        <Label alignment="TOP_LEFT" layoutX="10.0" layoutY="83.0" text="Item Type"
+          GridPane.rowIndex="4"/>
+        <Label fx:id="emptyProdNameFieldLbl" prefHeight="18.0" prefWidth="194.0"
+          style="-fx-text-fill: #ff0000;" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <Label fx:id="emptyManufacturerFieldLbl" layoutX="208.0" layoutY="45.0"
+          prefHeight="34.0" prefWidth="173.0" style="-fx-text-fill: #ff0000;"
+          GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <TextField fx:id="txtFieldName" layoutX="157.0" layoutY="61.0" maxHeight="16.0"
+          maxWidth="172.0" onKeyTyped="#prodNameTyped" prefHeight="16.0" prefWidth="172.0"
+          GridPane.columnIndex="1"/>
+      </GridPane>
+      <Button fx:id="addProductBtn" layoutX="305.0" layoutY="175.0" mnemonicParsing="false"
+        onAction="#buttonAction" prefHeight="26.0" prefWidth="100.0" text="Add product">
+        <cursor>
+          <Cursor fx:constant="HAND"/>
+        </cursor>
 
-                                </Button>
-                  <TableView fx:id="table" layoutX="14.0" layoutY="229.0" prefHeight="376.0" prefWidth="472.0">
-                    <columns>
-                      <TableColumn fx:id="prodIdColumn" prefWidth="75.0" text="Product ID" />
-                      <TableColumn fx:id="prodNameColumn" prefWidth="113.60004425048828" text="Product Name" />
-                        <TableColumn fx:id="manufacturerColumn" prefWidth="113.60004425048828" text="Manufacturer" />
-                        <TableColumn fx:id="itemTypeColumn" prefWidth="113.60004425048828" text="Item Type" />
-                    </columns>
-                  </TableView>
-                  <Label layoutX="14.0" layoutY="201.0" text="Existing Products" />
-                 </children>
-               <padding>
-                  <Insets right="20.0" top="20.0" />
-               </padding></AnchorPane>
-           </content>
-        </Tab>
-        <Tab fx:id="produceTab" text="Produce">
-           <content>
-              <AnchorPane>
-                 <children>
-                    <ListView fx:id="listView" layoutX="18.0" layoutY="60.0" onMouseClicked="#prodSelectedListview" prefHeight="434.0" prefWidth="467.0" />
-                    <ComboBox fx:id="cmbQuantity" layoutX="130.0" layoutY="511.0" prefHeight="26.0" prefWidth="137.0" AnchorPane.rightAnchor="238.0" />
-                    <Button layoutX="341.0" layoutY="511.0" mnemonicParsing="false" onAction="#recProd" prefHeight="26.0" prefWidth="143.0" text="Record Production" />
-                  <Label layoutX="18.0" layoutY="34.0" text="Choose Product" />
-                  <Label layoutX="16.0" layoutY="516.0" text="Choose Quantity" />
-                  <Label fx:id="prodNotSelectedLbl" layoutX="138.0" layoutY="14.0" prefHeight="18.0" prefWidth="258.0" style="-fx-text-fill: FF0000;" textFill="#f50a0a">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                 </children>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-              </AnchorPane>
-           </content></Tab>
-      <Tab fx:id="prodLogTab" text="Production Log">
-         <content>
-            <AnchorPane>
-               <children>
-                  <TextArea fx:id="txtAreaProdLog" layoutX="18.0" layoutY="16.0" prefHeight="594.0" prefWidth="468.0">
-                     <padding>
-                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-                     </padding></TextArea>
-               </children>
-            </AnchorPane>
-         </content>
-      </Tab>
+      </Button>
+      <TableView fx:id="table" layoutX="14.0" layoutY="229.0" prefHeight="376.0"
+        prefWidth="472.0">
+        <columns>
+          <TableColumn fx:id="prodIdColumn" prefWidth="75.0" text="Product ID"/>
+          <TableColumn fx:id="prodNameColumn" prefWidth="113.60004425048828"
+            text="Product Name"/>
+          <TableColumn fx:id="manufacturerColumn" prefWidth="113.60004425048828"
+            text="Manufacturer"/>
+          <TableColumn fx:id="itemTypeColumn" prefWidth="113.60004425048828" text="Item Type"/>
+        </columns>
+      </TableView>
+      <Label layoutX="14.0" layoutY="201.0" text="Existing Products"/>
+    </AnchorPane>
+  </Tab>
+  <Tab fx:id="produceTab" text="Produce">
+    <AnchorPane>
+      <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+      </padding>
+      <ListView fx:id="listView" layoutX="18.0" layoutY="60.0"
+        onMouseClicked="#prodSelectedListview" prefHeight="434.0" prefWidth="467.0"/>
+      <ComboBox fx:id="cmbQuantity" layoutX="130.0" layoutY="511.0" prefHeight="26.0"
+        prefWidth="137.0" AnchorPane.rightAnchor="238.0"/>
+      <Button layoutX="341.0" layoutY="511.0" mnemonicParsing="false" onAction="#recProd"
+        prefHeight="26.0" prefWidth="143.0" text="Record Production"/>
+      <Label layoutX="18.0" layoutY="34.0" text="Choose Product"/>
+      <Label layoutX="16.0" layoutY="516.0" text="Choose Quantity"/>
+      <Label fx:id="prodNotSelectedLbl" layoutX="138.0" layoutY="14.0" prefHeight="18.0"
+        prefWidth="258.0" style="-fx-text-fill: FF0000;" textFill="#f50a0a">
+        <font>
+          <Font size="14.0"/>
+        </font>
+      </Label>
+      <Label fx:id="recordedProductLbl" layoutX="101.0" layoutY="556.0" prefHeight="32.0"
+        prefWidth="314.0" style="-fx-text-fill: #2ea44f;">
+        <font>
+          <Font name="System Bold" size="14.0"/>
+        </font>
+      </Label>
+    </AnchorPane>
+  </Tab>
+  <Tab fx:id="prodLogTab" text="Production Log">
+    <AnchorPane>
+      <TextArea fx:id="txtAreaProdLog" layoutX="18.0" layoutY="16.0" prefHeight="594.0"
+        prefWidth="468.0">
+        <padding>
+          <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
+        </padding>
+      </TextArea>
+    </AnchorPane>
+  </Tab>
 
-     </tabs>
 </TabPane>

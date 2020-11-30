@@ -9,7 +9,10 @@ for: A production management system that adds new records to a database
 
 //import required packages
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -49,7 +52,7 @@ public class ActController {
 
   // Database credentials
   static final String USER = "";
-  static final String PASS = "";
+  static final String PASS = reverseString(getDBPassword());
 
   @FXML
   private TextField txtFieldName;
@@ -85,16 +88,13 @@ public class ActController {
   private ListView<Widget> listView;
 
   @FXML
-  private Label nameLbl;
+  public Label nameLbl;
 
   @FXML
-  private Label usernameLbl;
+  public Label usernameLbl;
 
   @FXML
-  private Label passwordLbl;
-
-  @FXML
-  private Label emailLbl;
+  public Label emailLbl;
 
   @FXML
   private Label emptyProdNameFieldLbl;
@@ -112,6 +112,7 @@ public class ActController {
   @FXML
   void prodSelectedListview(MouseEvent event) {
     prodNotSelectedLbl.setText("");
+    recordedProductLbl.setText("");
   }
 
   /**
@@ -142,7 +143,7 @@ public class ActController {
   }
 
   /**
-   * calls recordProductionBtn() method which records products to the production log tab
+   * calls recordProductionBtn() method which records products to the production log tab.
    * @param event contains a number of events that is utilized when an action is executed.
    */
   @FXML
@@ -164,15 +165,18 @@ public class ActController {
     scene.getStylesheets().add("stylish.css");
   }
 
+  @FXML
+  private Label recordedProductLbl;
+
   //Observable list
-  ObservableList<Widget> productLine = FXCollections.observableArrayList();
+  final ObservableList<Widget> productLine = FXCollections.observableArrayList();
   private Connection conn = null;
   private PreparedStatement pstmt = null;
-  private int inc;
+
 
   /**
    * This method is called automatically when the controller loads, and sets a default value for the
-   * combobox and choicebox.
+   * combobox and choice box.
    */
   public void initialize() {
 
@@ -180,8 +184,7 @@ public class ActController {
     setupProductLineTable();
     loadProductList();
     loadProductionLog();
-
-    displayEmployeeDetails();
+    getDBPassword();
 
     //for each loop that produce the item types
     for (ItemType it : ItemType.values()) {
@@ -232,6 +235,7 @@ public class ActController {
 
     itemTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
 
+    prodIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 
   }
 
@@ -241,7 +245,7 @@ public class ActController {
    */
   private void recordProductionBtn() {
 
-    inc = 1;
+    int inc = 1;
 
     int quantity = Integer.parseInt(cmbQuantity.getSelectionModel().getSelectedItem());
 
@@ -256,6 +260,8 @@ public class ActController {
       prodNotSelectedLbl.setText("Please choose a product from the list");
       return;
     } else {
+      recordedProductLbl.setText("Product has been successfully recorded!");
+
       existedItem = productSearch(selectedItem);
 
       if (!existedItem.equals("")) {
@@ -310,16 +316,16 @@ public class ActController {
    */
   private void addProductionDB(ArrayList<ProductionRecord> productionRun) {
 
-    for (int i = 0; i < productionRun.size(); i++) {
+    for (ProductionRecord productionRecord : productionRun) {
 
       try {
         String sql = " INSERT INTO PRODUCTIONRECORD(PRODUCT_ID, SERIAL_NUM, DATE_PRODUCED)"
             + " VALUES ( ?, ?, ? )";
         pstmt = conn.prepareStatement(sql);
 
-        pstmt.setString(1, productionRun.get(i).productID);
-        pstmt.setString(2, productionRun.get(i).serialNumber);
-        pstmt.setTimestamp(3, productionRun.get(i).dateProduced);
+        pstmt.setString(1, productionRecord.productID);
+        pstmt.setString(2, productionRecord.serialNumber);
+        pstmt.setTimestamp(3, productionRecord.dateProduced);
 
         pstmt.executeUpdate();
 
@@ -348,7 +354,7 @@ public class ActController {
       while (result.next()) {
         itemType = ItemType.valueOf(result.getString(3));
 
-        Widget product = new Widget(result.getString(2), result.getString(4),
+        Widget product = new Widget(result.getInt(1),result.getString(2), result.getString(4),
             itemType);
 
         //Save to observable list
@@ -356,6 +362,8 @@ public class ActController {
 
         table.setItems(productLine);
         listView.setItems(productLine);
+
+
 
       }
       pstmt.close();
@@ -486,16 +494,14 @@ public class ActController {
         if (empUsername.equals(userName) && empPassword.equals(password)) {
           accountExist = true;
 
-          //NOT WORKING -------------------------------------------------------
           nameLbl.setText(empName);
           usernameLbl.setText(empUsername);
           emailLbl.setText(empEmail);
-          passwordLbl.setText(empPassword);
-          //---------------------------------------------------------------------
-
         }
       }
 
+      rs.close();
+      pstmt.close();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -504,28 +510,31 @@ public class ActController {
   }
 
   /**
-   * this method is used to display the employee details.
+   * reverses a string.
+   * @param id A String containing a password to be reversed
+   * @return This password reversed.
    */
-  public void displayEmployeeDetails() {
+  private static String reverseString(String id) {
+    return id.isEmpty() ? id : reverseString(id.substring(1)) + id.charAt(0);
+  }
 
-    FXMLLoader loader = new FXMLLoader();
-    loader.setLocation(getClass().getResource("sample2.fxml"));
-    try {
-      Parent root = loader.load();
+  /**
+   * gets password from a txt field.
+   * @return this database's password.
+   */
+  public static String getDBPassword(){
 
-    } catch (Exception e) {
+    String pass = "";
+    try{
+
+      BufferedReader reader = Files.newBufferedReader(Paths.get("src/main/java/pass.txt"));
+
+      pass = reader.readLine();
+
+    }catch(IOException e){
       e.printStackTrace();
     }
-
-    Controller controller = loader.getController();
-
-    /*System.out.println("USER NAME: " + controller.empUsername);
-    System.out.println("USER PASSWORD: " + controller.empPassword);*/
-
-    nameLbl.setText("Jaysson Balbuena");
-    usernameLbl.setText("Jay");
-    emailLbl.setText("Jay@oracle");
-    passwordLbl.setText("JayJay");
+    return pass;
   }
 
 }

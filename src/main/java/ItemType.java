@@ -6,13 +6,13 @@
 public enum ItemType {
   AUDIO("AU"), VISUAL("VI"), AUDIO_MOBILE("AM"), VISUAL_MOBILE("VM");
 
-  private String code;
+  private final String code;
 
   /**
    * Class constructor that is invoked whenever the enum value is accessed.
    * @param code a String containing a specific value that is then assigned to code.
    */
-  private ItemType(String code) {
+  ItemType(String code) {
     this.code = code;
   }
 

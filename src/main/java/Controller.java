@@ -2,12 +2,14 @@ import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 /**
  * Manipulates and controls the scene builder containers through individual fx:id's and methods.
@@ -32,9 +34,6 @@ public class Controller {
   private Label lblPassword;
 
   @FXML
-  private Label msgCreatePassword;
-
-  @FXML
   private TextField createName;
 
   @FXML
@@ -51,6 +50,7 @@ public class Controller {
 
   @FXML
   private Label acctCreatedLbl;
+
 
   /**
    *  allows user to return to the login page.
@@ -70,7 +70,7 @@ public class Controller {
    */
   @FXML
   void loginBtn(ActionEvent event) throws IOException {
-    loginScreen();
+    loginScreen(event);
   }
 
   /**
@@ -131,10 +131,10 @@ public class Controller {
 
   /**
    * When this method is called, it checks for valid input and it logs in if input is corrected.
-   *
+   * @param event contains an action that is executed when
    * @throws IOException is thrown if something goes wrong when reading the fxml file.
    */
-  public void loginScreen() throws IOException {
+  public void loginScreen(ActionEvent event) throws IOException {
 
     boolean validation = true;
 
@@ -160,26 +160,20 @@ public class Controller {
     loader.setLocation(getClass().getResource("sample.fxml"));
     Parent tableviewParent = loader.load();
 
-    ActController controller = loader.getController();
+    Scene scene = new Scene(tableviewParent, 500, 650);
+    scene.getStylesheets().add("stylish.css");
 
+    ActController controller = loader.getController();
     boolean existingAcct = controller.loadEmployee(username, password);
 
     if (existingAcct) {
 
-      System.out.println("True");
-      System.out.println("You've been successfully logged in");
-
-      try {
-        TabPane pane = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        rootPane.getChildren().setAll(pane);
-
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
+      Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+      window.setScene(scene);
+      window.show();
 
     } else {
       errorMessage.setText("Incorrect username or password");
-      System.out.println("false");
     }
 
   } //ends loginScreen() method
@@ -251,18 +245,19 @@ public class Controller {
 
     FXMLLoader loader = new FXMLLoader();
     loader.setLocation(getClass().getResource("sample.fxml"));
-    Parent tableviewParent = loader.load();
+    loader.load();
 
     ActController controller = loader.getController();
     controller.addEmployee(emp);
 
     acctCreatedLbl.setText("Your account has been successfully created\n"
         + "Username: " + emp.userName + "\n"
-        + "To login, go back to the main page");
+        + "To login, go back to the login page");
 
     lblCreatePassword.setText("");
 
   } //end registerUser method
+
 
 } //end Controller class
 

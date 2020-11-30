@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
   /**
-   * it calls launch method and passees args as a parameter.
+   * it calls launch method and passes args as a parameter.
    * @param args command-line arguments.
    */
   public static void main(String[] args) {
