@@ -12,6 +12,26 @@ Productiva allows users to control all aspects of product production. It contain
 ## Demonstration
 ![FinalProject](https://user-images.githubusercontent.com/49848214/100721410-4a9adb00-338d-11eb-95ae-91efa8897314.gif)
 
+- Login Screen
+
+![Login page with credentials](https://user-images.githubusercontent.com/49848214/100721944-03611a00-338e-11eb-9d81-2d2b60dcd508.jpg)
+
+ - Employee Details Screen
+
+![Employee Details](https://user-images.githubusercontent.com/49848214/100722071-2db2d780-338e-11eb-93a7-74dd35538c03.jpg)
+
+ - Product Line Screen
+
+![Product Line](https://user-images.githubusercontent.com/49848214/100722140-46bb8880-338e-11eb-9923-2018503d8dad.jpg)
+
+ - Create Production Log Screen
+
+![Produce Tab](https://user-images.githubusercontent.com/49848214/100722255-69e63800-338e-11eb-8ed4-22881eb12ea2.jpg)
+
+ - Production Log Screen
+
+![Production Log Tab](https://user-images.githubusercontent.com/49848214/100722355-86827000-338e-11eb-8c14-6835e2104ce9.jpg)
+
 ## Documentation
 [JavaDoc](https://jayssonbf.github.io/JavaFXOOP/)
 
