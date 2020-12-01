@@ -6,7 +6,7 @@ Productiva allows users to control all aspects of product production. It contain
  - This product management system was created independently by Jaysson Balbuena with the contribution of Robert Kissinger (TA).
  - It took approximately four months to build this software, and it was designed for a final project.
  - The level of experience before developing "Productiva" was slightly low. The current level of experience has risen incredibly.
- - The idea of creating "Productiva" came from Prof. Vanselow, who assigned a group of students from Florida Gulf Coast University to develop a product management system for a final project (course COP 3030).
+ - The idea of creating "Productiva" came from [Prof. Vanselow](https://github.com/profvanselow), who assigned a group of students from Florida Gulf Coast University to develop a product management system for a final project (course COP 3030).
  - Most of the development process was produced at home.
  
 ## Demonstration
@@ -86,11 +86,8 @@ improved by accepting more item types. Also, Productiva can meet other objective
 	-Oracleacademy
 	-udemy
 
- - I'd like to express my special thanks of gratitude to one of the TA's of this course, Robert Kissinger, and one of my classmates, William Angola, who helped me and provided support in completing my project.
- - I would also like to extend my gratitude to my professor Vanselow for providing me with all the facilities that were required.
-
-## History
-
+ - I'd like to express my special thanks of gratitude to one of the TA's of this course, [Robert Kissinger](https://github.com/TheCatsOfUlthar), and one of my classmates, [William Angola](https://github.com/Wangola), who helped me and provided support in completing my project.
+ - I would also like to extend my gratitude to my professor [Vanselow](https://github.com/profvanselow) for providing me with all the facilities that were required.
 
 ## Key Programming Concepts Utilized
 
