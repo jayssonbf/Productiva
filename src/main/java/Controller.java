@@ -149,7 +149,7 @@ public class Controller {
 
         return;
       } else if (userNameTxt.getText().isEmpty()) {
-        lblUsername.setText("username must be filled out");
+        lblUsername.setText("Username must be filled out");
         userNameTxt.requestFocus();
         return;
       } else if (passwordTxt.getText().isEmpty()) {
@@ -216,7 +216,7 @@ public class Controller {
         createName.requestFocus();
         return;
       } else if (createName.getText().isEmpty()) {
-        lblCreateName.setText("name must be filled out");
+        lblCreateName.setText("Name must be filled out");
         createName.requestFocus();
         return;
       } else if (createPassword.getText().isEmpty()) {
@@ -260,8 +260,8 @@ public class Controller {
     controller.addEmployee(emp);
 
     acctCreatedLbl.setText("Your account has been successfully created!\n"
-        + "Username: " + emp.userName + "\n" +
-        "Click on 'Login Page'");
+        + "Username: " + emp.userName + "\n"
+        + "Click on 'Login Page'");
 
 
     lblCreatePassword.setText("");

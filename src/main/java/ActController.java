@@ -108,6 +108,9 @@ public class ActController {
   @FXML
   private Label notAnIntegerLbl;
 
+  @FXML
+  private Label prodAddedToTheList;
+
   /**
    * disables the error message shown when the user tries to enter a wrong input in the combobox.
    * @param event contains a number of events that is utilized when an action is executed.
@@ -143,6 +146,7 @@ public class ActController {
   @FXML
   void prodNameTyped(KeyEvent event) {
     emptyProdNameFieldLbl.setText("");
+    prodAddedToTheList.setText("");
   }
 
   /**
@@ -427,20 +431,25 @@ public class ActController {
         if (txtFieldName.getText().isEmpty() && txtFieldManufacturer.getText().isEmpty()) {
           emptyProdNameFieldLbl.setText("Enter a product");
           emptyManufacturerFieldLbl.setText("Provide a manufacturer");
+          txtFieldName.requestFocus();
           return;
         } else if (txtFieldName.getText().isEmpty()) {
           emptyProdNameFieldLbl.setText("Enter a product");
+          txtFieldName.requestFocus();
           return;
         } else if (txtFieldManufacturer.getText().isEmpty()) {
           emptyManufacturerFieldLbl.setText("Provide a manufacturer");
+          txtFieldManufacturer.requestFocus();
           return;
-        } else if (!txtFieldManufacturer.getText().matches("[a-zA-Z]{3,}")) {
-          emptyManufacturerFieldLbl.setText("field must contain three or more letters only");
+        } else if (!txtFieldManufacturer.getText().matches("^[a-zA-Z]{3,}[ |a-zA-Z]*$")) {
+          emptyManufacturerFieldLbl.setText("No digits and must begin with at least 3 letters");
+          txtFieldManufacturer.requestFocus();
           return;
         }
 
         validation = false;
       }
+
       ArrayList<String> productLine = new ArrayList<>();
       productLine.add(txtFieldName.getText());
       pstmt.setString(1, productLine.get(0));
@@ -452,6 +461,12 @@ public class ActController {
       pstmt.setString(3, productLine.get(2));
 
       pstmt.executeUpdate();
+      prodAddedToTheList.setStyle("-fx-text-fill: green");
+      prodAddedToTheList.setText("Product has been added to the list!");
+      txtFieldName.setText("");
+      txtFieldManufacturer.setText("");
+      txtFieldName.requestFocus();
+
       table.getItems().clear();
       listView.getItems().clear();
       loadProductList();
