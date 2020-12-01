@@ -52,7 +52,7 @@ public class ActController {
 
   // Database credentials
   static final String USER = "";
-  static final String PASS = reverseString(getDBPassword());
+  static final String PASS = reverseString(getdbpassword());
 
   @FXML
   private TextField txtFieldName;
@@ -105,6 +105,18 @@ public class ActController {
   @FXML
   private Label prodNotSelectedLbl;
 
+  @FXML
+  private Label notAnIntegerLbl;
+
+  /**
+   * disables the error message shown when the user tries to enter a wrong input in the combobox.
+   * @param event contains a number of events that is utilized when an action is executed.
+   */
+  @FXML
+  void disableProduceTabErrorMsg(KeyEvent event) {
+    notAnIntegerLbl.setText("");
+  }
+
   /**
    * disables error message shown when user does not select a product from the listView.
    * @param event contains a number of events that is utilized when an action is executed.
@@ -112,7 +124,7 @@ public class ActController {
   @FXML
   void prodSelectedListview(MouseEvent event) {
     prodNotSelectedLbl.setText("");
-    recordedProductLbl.setText("");
+
   }
 
   /**
@@ -165,9 +177,6 @@ public class ActController {
     scene.getStylesheets().add("stylish.css");
   }
 
-  @FXML
-  private Label recordedProductLbl;
-
   //Observable list
   final ObservableList<Widget> productLine = FXCollections.observableArrayList();
   private Connection conn = null;
@@ -184,7 +193,7 @@ public class ActController {
     setupProductLineTable();
     loadProductList();
     loadProductionLog();
-    getDBPassword();
+    getdbpassword();
 
     //for each loop that produce the item types
     for (ItemType it : ItemType.values()) {
@@ -196,6 +205,8 @@ public class ActController {
       cmbQuantity.getItems().add(Integer.toString(i));
     }
     cmbQuantity.getSelectionModel().selectFirst();
+
+    cmbQuantity.setEditable(true);
 
   }
 
@@ -218,6 +229,7 @@ public class ActController {
         txtAreaProdLog.appendText(productionRecord.toString() + "\n");
       }
 
+      rs.close();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -246,7 +258,11 @@ public class ActController {
   private void recordProductionBtn() {
 
     int inc = 1;
-
+    if (!cmbQuantity.getSelectionModel().getSelectedItem().matches("^[1-9][\\d]*$")) {
+      notAnIntegerLbl.setText("A positive number must be entered*");
+      return;
+    }
+    notAnIntegerLbl.setText("");
     int quantity = Integer.parseInt(cmbQuantity.getSelectionModel().getSelectedItem());
 
     Product selectedItem = listView.getSelectionModel().getSelectedItem();
@@ -257,10 +273,11 @@ public class ActController {
     String existedItem;
     if (itemSelected) {
 
-      prodNotSelectedLbl.setText("Please choose a product from the list");
+      prodNotSelectedLbl.setText("Please choose a product from the list*");
       return;
     } else {
-      recordedProductLbl.setText("Product has been successfully recorded!");
+      prodNotSelectedLbl.setStyle("-fx-text-fill: green");
+      prodNotSelectedLbl.setText("Product has been successfully recorded!");
 
       existedItem = productSearch(selectedItem);
 
@@ -303,7 +320,7 @@ public class ActController {
           result = rs.getString(3);
         }
       }
-
+      rs.close();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -354,7 +371,7 @@ public class ActController {
       while (result.next()) {
         itemType = ItemType.valueOf(result.getString(3));
 
-        Widget product = new Widget(result.getInt(1),result.getString(2), result.getString(4),
+        Widget product = new Widget(result.getInt(1), result.getString(2), result.getString(4),
             itemType);
 
         //Save to observable list
@@ -362,8 +379,6 @@ public class ActController {
 
         table.setItems(productLine);
         listView.setItems(productLine);
-
-
 
       }
       pstmt.close();
@@ -394,8 +409,8 @@ public class ActController {
   }
 
   /**
-   * This method will use the text entered in the text field of the. interface for the prepared
-   * statement to insert a product in the database table
+   * This method will use the text entered in the text field of the interface for the prepared.
+   * statement to insert a product in the database table.
    */
   public void addProduct() {
 
@@ -419,7 +434,11 @@ public class ActController {
         } else if (txtFieldManufacturer.getText().isEmpty()) {
           emptyManufacturerFieldLbl.setText("Provide a manufacturer");
           return;
+        } else if (!txtFieldManufacturer.getText().matches("[a-zA-Z]{3,}")) {
+          emptyManufacturerFieldLbl.setText("field must contain three or more letters");
+          return;
         }
+
         validation = false;
       }
       ArrayList<String> productLine = new ArrayList<>();
@@ -447,7 +466,6 @@ public class ActController {
    * @param emp contains employee's details.
    */
   public void addEmployee(Employee emp) {
-    System.out.println("INSIDE addEmployee: " + emp);
 
     try {
       String sql = " INSERT INTO EMPLOYEE(NAME, USERNAME, EMAIL, PASSWORD)"
@@ -522,16 +540,17 @@ public class ActController {
    * gets password from a txt field.
    * @return this database's password.
    */
-  public static String getDBPassword(){
+  public static String getdbpassword() {
 
     String pass = "";
-    try{
+    try {
 
       BufferedReader reader = Files.newBufferedReader(Paths.get("src/main/java/pass.txt"));
 
       pass = reader.readLine();
 
-    }catch(IOException e){
+      reader.close();
+    } catch (IOException e) {
       e.printStackTrace();
     }
     return pass;

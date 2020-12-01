@@ -80,6 +80,7 @@ public class Controller {
   @FXML
   void usernameKeyReleased(KeyEvent event) {
     lblUsername.setText("");
+    errorMessage.setText("");
   }
 
   /**
@@ -89,6 +90,7 @@ public class Controller {
   @FXML
   void passwordKeyReleased(KeyEvent event) {
     lblPassword.setText("");
+    errorMessage.setText("");
 
   }
 
@@ -117,6 +119,7 @@ public class Controller {
    */
   @FXML
   void createAcctButton(ActionEvent event) throws IOException {
+
     registerUser();
   }
 
@@ -127,6 +130,7 @@ public class Controller {
   @FXML
   void createAccount(ActionEvent event) {
     loadCreateAcctScreen();
+
   }
 
   /**
@@ -135,19 +139,22 @@ public class Controller {
    * @throws IOException is thrown if something goes wrong when reading the fxml file.
    */
   public void loginScreen(ActionEvent event) throws IOException {
-
+    userNameTxt.requestFocus();
     boolean validation = true;
 
     while (validation) {
       if (userNameTxt.getText().isEmpty() && passwordTxt.getText().isEmpty()) {
         lblUsername.setText("Username must be filled out");
         lblPassword.setText("Password must be filled out");
+
         return;
       } else if (userNameTxt.getText().isEmpty()) {
         lblUsername.setText("username must be filled out");
+        userNameTxt.requestFocus();
         return;
       } else if (passwordTxt.getText().isEmpty()) {
         lblPassword.setText("Password must be filled out");
+        passwordTxt.requestFocus();
         return;
       }
       validation = false;
@@ -206,12 +213,15 @@ public class Controller {
       if (createName.getText().isEmpty() && createPassword.getText().isEmpty()) {
         lblCreateName.setText("Name is empty");
         lblCreatePassword.setText("Password is empty");
+        createName.requestFocus();
         return;
       } else if (createName.getText().isEmpty()) {
-        lblCreateName.setText("username must be filled out");
+        lblCreateName.setText("name must be filled out");
+        createName.requestFocus();
         return;
       } else if (createPassword.getText().isEmpty()) {
         lblCreatePassword.setText("Password must be filled out");
+        createPassword.requestFocus();
         return;
       }
       validation = false;
@@ -223,15 +233,14 @@ public class Controller {
     Employee emp = new Employee(name, password);
 
     while (validation) {
-      if (emp.name.toString().matches("^[a-zA-Z]{3,}[ ][a-zA-Z]+$")
+      if (emp.name.toString().matches("^[a-zA-Z]{3,}[ ][a-zA-Z]{3,}$")
           && emp.password.matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[#?!@$%^&*-]).{3,}$")) {
-        System.out.println("Your account has been successfully created");
 
         validation = false;
 
-      } else if (!emp.name.toString().matches("^[a-zA-Z]{3,}.[ ][a-zA-Z]+$")) {
-        lblCreateName.setText("Enter your full name [e.g. Pedro Martinez]");
-
+      } else if (!emp.name.toString().matches("^[a-zA-Z]{3,}[ ][a-zA-Z]{3,}$")) {
+        lblCreateName.setText("Enter your full name without digits [e.g. Pedro Martinez]");
+        createName.requestFocus();
         return;
       } else if (!emp.name.toString()
           .matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[#?!@$%^&*-]).{3,}$")) {
@@ -250,9 +259,9 @@ public class Controller {
     ActController controller = loader.getController();
     controller.addEmployee(emp);
 
-    acctCreatedLbl.setText("Your account has been successfully created\n"
-        + "Username: " + emp.userName + "\n"
-        + "To login, go back to the login page");
+    acctCreatedLbl.setText("Your account has been successfully created!\n"
+        + "Username: " + emp.userName);
+
 
     lblCreatePassword.setText("");
 
