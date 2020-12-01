@@ -10,8 +10,7 @@ Productiva allows users to control all aspects of product production. It contain
  - For this software, most of the development process was produced at home under a critical social condition.
  
 ## Demonstration
-![Productiva](https://user-images.githubusercontent.com/49848214/100568320-eac30800-3298-11eb-9284-b4e6e90f8eb8.gif)
-
+![FinalProject](https://user-images.githubusercontent.com/49848214/100721410-4a9adb00-338d-11eb-95ae-91efa8897314.gif)
 
 ## Documentation
 [JavaDoc](https://jayssonbf.github.io/JavaFXOOP/)
@@ -77,4 +76,4 @@ Productiva allows users to control all aspects of product production. It contain
  - Regular Expressions
 		-Regex very util and excellent tool that helps “Productiva” avoid unwanted input.
  - Recursion
-		-Productiva uses this technique to reverse strings.
+		-Productiva uses this technique to reverse strings for security purposes.
