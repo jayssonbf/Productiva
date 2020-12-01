@@ -88,13 +88,13 @@ public class ActController {
   private ListView<Widget> listView;
 
   @FXML
-  public Label nameLbl;
+  private Label nameLbl;
 
   @FXML
-  public Label usernameLbl;
+  private Label usernameLbl;
 
   @FXML
-  public Label emailLbl;
+  private Label emailLbl;
 
   @FXML
   private Label emptyProdNameFieldLbl;
