@@ -260,7 +260,8 @@ public class Controller {
     controller.addEmployee(emp);
 
     acctCreatedLbl.setText("Your account has been successfully created!\n"
-        + "Username: " + emp.userName);
+        + "Username: " + emp.userName + "\n" +
+        "Click on 'Login Page'");
 
 
     lblCreatePassword.setText("");

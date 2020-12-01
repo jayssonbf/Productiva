@@ -435,7 +435,7 @@ public class ActController {
           emptyManufacturerFieldLbl.setText("Provide a manufacturer");
           return;
         } else if (!txtFieldManufacturer.getText().matches("[a-zA-Z]{3,}")) {
-          emptyManufacturerFieldLbl.setText("field must contain three or more letters");
+          emptyManufacturerFieldLbl.setText("field must contain three or more letters only");
           return;
         }
 
