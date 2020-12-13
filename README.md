@@ -10,8 +10,7 @@ Productiva allows users to control all aspects of product production. It contain
  - Most of the development process was produced at home.
  
 ## Demonstration
-![FinalProject](https://user-images.githubusercontent.com/49848214/100721410-4a9adb00-338d-11eb-95ae-91efa8897314.gif)
-
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/49848214/101999705-c1997300-3cad-11eb-80ce-ce9bcf6fc77f.gif)
 - Login Screen
 
 ![Login page with credentials](https://user-images.githubusercontent.com/49848214/100721944-03611a00-338e-11eb-9d81-2d2b60dcd508.jpg)
