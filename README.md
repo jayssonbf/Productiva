@@ -1,6 +1,6 @@
 
 # Productiva
-Productiva allows users to control all aspects of product production. It contains a variety of options where users can add new products or select existing products that can be produced and record them into the production log. It offers complete visibility and traceability of the entire manufacturing process, giving you real-time visibility and control over your entire manufacturing supply chain.
+Productiva is a product management system that allows users to keep track of new and existing electronic products. It contains a variety of features where users can add new products or select existing products that can be produced and record them into the production log. Another feature is that it offers easy and quick access to production statistics, including the name and type of the items, the quantity of each item produced, the serial number, and the creation date of each item.
 
  - Productiva is a product management system that provides discrete and advanced quality 			management and product lifecycle management.	
  - This product management system was created independently by Jaysson Balbuena with the contribution of Robert Kissinger (TA).
